@@ -15,7 +15,7 @@ Puis ouvrir http://localhost:3000.
 
 Tout le contenu est dans **`src/content/site.ts`** : nom, adresse, téléphone, horaires, carte et prix, textes de la page « La maison ». Les pages se mettent à jour toutes seules.
 
-Les valeurs fournies au départ (horaires, produits, prix, textes) sont des **exemples à remplacer**. L'adresse et le téléphone sont vides : tant qu'ils le restent, le site affiche « à venir ».
+Une information inconnue reste **vide** (`""` ou `[]`) : le site affiche « à venir » ou masque la section, sans rien inventer. Le fichier explique le format de chaque champ.
 
 ## Organisation
 

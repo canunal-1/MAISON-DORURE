@@ -9,6 +9,10 @@ export default function TableauHoraires() {
   const minute = useMinute();
   const aujourdhui = minute === null ? null : maintenantAParis(new Date(minute * 60_000)).jour;
 
+  if (horaires.length === 0) {
+    return <p className="a-venir">Horaires à venir</p>;
+  }
+
   return (
     <table className="horaires">
       <caption className="visuellement-cache">Horaires d&apos;ouverture de la semaine</caption>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     default: boulangerie.nom,
     template: `%s | ${boulangerie.nom}`,
   },
-  description: boulangerie.accroche,
+  description: boulangerie.accroche || undefined,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

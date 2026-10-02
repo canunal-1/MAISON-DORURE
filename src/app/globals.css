@@ -442,6 +442,13 @@ a:hover {
   color: rgb(236 232 221 / 0.85);
 }
 
+.ardoise-vide {
+  margin: 0;
+  font-family: var(--enseigne);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  color: var(--or-clair);
+}
+
 .ardoise-suite {
   margin: clamp(2rem, 5vw, 3rem) 0 0;
 }

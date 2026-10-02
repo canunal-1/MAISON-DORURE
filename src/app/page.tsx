@@ -30,7 +30,7 @@ export default function Accueil() {
           <div className="vitrine-contenu">
             <EtatBoutique />
             <div className="vitrine-texte">
-              <p>{boulangerie.accroche}</p>
+              {boulangerie.accroche && <p>{boulangerie.accroche}</p>}
               <div className="actions">
                 <Link className="bouton" href="/produits">
                   Voir la carte
@@ -44,22 +44,24 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section className="ardoise" aria-labelledby="titre-ardoise">
-        <div className="ardoise-contenu">
-          <div className="ardoise-entete">
-            <h2 id="titre-ardoise">Sur l&apos;ardoise</h2>
-            <p>Ce qu&apos;on vient chercher le plus souvent.</p>
+      {selection.length > 0 && (
+        <section className="ardoise" aria-labelledby="titre-ardoise">
+          <div className="ardoise-contenu">
+            <div className="ardoise-entete">
+              <h2 id="titre-ardoise">Sur l&apos;ardoise</h2>
+              <p>Une sélection de la carte.</p>
+            </div>
+            <div className="ardoise-colonnes">
+              {selection.map((categorie) => (
+                <Ardoise key={categorie.id} categorie={categorie} />
+              ))}
+            </div>
+            <p className="ardoise-suite">
+              <Link href="/produits">Voir toute la carte</Link>
+            </p>
           </div>
-          <div className="ardoise-colonnes">
-            {selection.map((categorie) => (
-              <Ardoise key={categorie.id} categorie={categorie} />
-            ))}
-          </div>
-          <p className="ardoise-suite">
-            <Link href="/produits">Voir toute la carte</Link>
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="bloc" aria-labelledby="titre-venir">
         <div className="bloc-contenu deux-colonnes">

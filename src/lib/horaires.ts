@@ -46,6 +46,9 @@ export type Etat = {
 };
 
 export function etatBoutique(horaires: Jour[], date: Date = new Date()): Etat {
+  // Horaires pas encore renseignés : on ne prétend ni « ouvert » ni « fermé ».
+  if (horaires.length === 0) return { ouvert: false, titre: "Horaires à venir", detail: "" };
+
   const { jour, minutes } = maintenantAParis(date);
   const aujourdhui = horaires[jour];
 

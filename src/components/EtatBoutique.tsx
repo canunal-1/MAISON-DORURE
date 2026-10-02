@@ -10,7 +10,13 @@ import { useMinute } from "@/lib/useMinute";
  */
 export default function EtatBoutique() {
   const minute = useMinute();
-  const etat = minute === null ? null : etatBoutique(horaires, new Date(minute * 60_000));
+  // Sans horaires, la réponse ne dépend pas de l'heure : inutile d'attendre le navigateur.
+  const etat =
+    horaires.length === 0
+      ? etatBoutique(horaires)
+      : minute === null
+        ? null
+        : etatBoutique(horaires, new Date(minute * 60_000));
 
   return (
     <div className="etat" aria-live="polite">
@@ -18,7 +24,7 @@ export default function EtatBoutique() {
         <span className={`etat-pastille ${etat?.ouvert ? "est-ouvert" : ""}`} aria-hidden="true" />
         {etat ? etat.titre : "Horaires du jour"}
       </p>
-      <p className="etat-detail">{etat ? etat.detail : " "}</p>
+      <p className="etat-detail">{etat ? etat.detail : " "}</p>
     </div>
   );
 }

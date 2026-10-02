@@ -32,12 +32,14 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="bloc bloc-papier" aria-labelledby="titre-commande">
-        <div className="bloc-contenu etroit">
-          <h2 id="titre-commande">{commande.titre}</h2>
-          <p>{commande.texte}</p>
-        </div>
-      </section>
+      {commande.texte && (
+        <section className="bloc bloc-papier" aria-labelledby="titre-commande">
+          <div className="bloc-contenu etroit">
+            <h2 id="titre-commande">{commande.titre}</h2>
+            <p>{commande.texte}</p>
+          </div>
+        </section>
+      )}
     </>
   );
 }

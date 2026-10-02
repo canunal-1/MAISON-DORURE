@@ -23,6 +23,7 @@ function resumeHoraires(): { jours: string; heures: string }[] {
 
 export default function Pied() {
   const adresse = adresseComplete();
+  const resume = resumeHoraires();
 
   return (
     <footer className="pied">
@@ -35,14 +36,18 @@ export default function Pied() {
           <p>{adresse || "Adresse à venir"}</p>
           {boulangerie.telephone && <p>{boulangerie.telephone}</p>}
         </div>
-        <ul className="pied-horaires">
-          {resumeHoraires().map((ligne) => (
-            <li key={ligne.jours}>
-              <span>{ligne.jours}</span>
-              <span>{ligne.heures}</span>
-            </li>
-          ))}
-        </ul>
+        {resume.length > 0 ? (
+          <ul className="pied-horaires">
+            {resume.map((ligne) => (
+              <li key={ligne.jours}>
+                <span>{ligne.jours}</span>
+                <span>{ligne.heures}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Horaires à venir</p>
+        )}
         <ul className="pied-liens">
           <li>
             <Link href="/produits">La carte</Link>
