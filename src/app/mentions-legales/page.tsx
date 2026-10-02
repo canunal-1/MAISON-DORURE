@@ -60,6 +60,7 @@ export default function MentionsLegales() {
               {hebergeur.site && (
                 <a href={hebergeur.site} target="_blank" rel="noreferrer">
                   {hebergeur.site.replace(/^https?:\/\//, "")}
+                  <span className="visuellement-cache"> (s&apos;ouvre dans un nouvel onglet)</span>
                 </a>
               )}
             </Ligne>

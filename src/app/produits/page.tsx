@@ -34,7 +34,7 @@ export default function Produits() {
           {carte.length > 0 ? (
             <div className="ardoise-colonnes">
               {carte.map((categorie) => (
-                <Ardoise key={categorie.id} categorie={categorie} />
+                <Ardoise key={categorie.id} categorie={categorie} titre="h2" />
               ))}
             </div>
           ) : (

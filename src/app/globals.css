@@ -93,9 +93,28 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 3px solid var(--or);
+  /* Vert sur fonds clairs (3:1 minimum exigé) ; doré sur les zones sombres, ci-dessous. */
+  outline: 3px solid var(--devanture);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+.entete :focus-visible,
+.devanture :focus-visible,
+.bandeau :focus-visible,
+.ardoise :focus-visible,
+.panneau :focus-visible,
+.pied :focus-visible {
+  outline-color: var(--or);
+}
+
+.aller-au-contenu:focus-visible {
+  outline-color: var(--craie);
+}
+
+/* « Aller au contenu » met le focus sur <main> : pas de cadre autour de toute la page. */
+main:focus {
+  outline: none;
 }
 
 .visuellement-cache {
@@ -450,7 +469,7 @@ a:hover {
   scroll-margin-top: 2rem;
 }
 
-.ardoise-categorie h3 {
+.ardoise-categorie :is(h2, h3) {
   margin-bottom: 1.1rem;
   padding-bottom: 0.6rem;
   border-bottom: 2px solid rgb(236 232 221 / 0.3);
@@ -611,6 +630,13 @@ a:hover {
   margin-bottom: 1.5rem;
 }
 
+/* Message « à venir » : un texte courant, pas le grand paragraphe d'introduction. */
+.texte-long p.a-venir {
+  font-family: var(--texte);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
 .deux-colonnes {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -713,7 +739,7 @@ a:hover {
 }
 
 .horaires .est-ferme {
-  color: rgb(23 35 29 / 0.62);
+  color: rgb(23 35 29 / 0.72);
 }
 
 .horaires .est-aujourdhui th,
@@ -840,6 +866,14 @@ a:hover {
 
 .pied a {
   color: var(--craie);
+}
+
+/* Mode contraste élevé (Windows) : les fonds sont supprimés, le texte doit rester visible. */
+@media (forced-colors: active) {
+  .enseigne-nom {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
 }
 
 /* ---------- Petits écrans ---------- */

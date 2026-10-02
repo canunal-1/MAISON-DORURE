@@ -23,7 +23,7 @@ export default function Accueil() {
       <section className="devanture" aria-label="La boutique">
         <div className="enseigne">
           <h1>
-            <span className="enseigne-metier">Boulangerie</span>
+            <span className="enseigne-metier">Boulangerie</span>{" "}
             <span className="enseigne-nom">{boulangerie.nomCourt}</span>
           </h1>
         </div>

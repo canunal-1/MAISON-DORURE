@@ -29,7 +29,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Aller au contenu
         </a>
         <Navigation />
-        <main id="contenu">{children}</main>
+        <main id="contenu" tabIndex={-1}>
+          {children}
+        </main>
         <Pied />
         <DonneesStructurees />
       </body>

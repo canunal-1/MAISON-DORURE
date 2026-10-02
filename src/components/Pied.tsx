@@ -48,20 +48,22 @@ export default function Pied() {
         ) : (
           <p>Horaires à venir</p>
         )}
-        <ul className="pied-liens">
-          <li>
-            <Link href="/produits">La carte</Link>
-          </li>
-          <li>
-            <Link href="/la-maison">La maison</Link>
-          </li>
-          <li>
-            <Link href="/contact">Horaires</Link>
-          </li>
-          <li>
-            <Link href="/mentions-legales">Mentions légales</Link>
-          </li>
-        </ul>
+        <nav aria-label="Liens du pied de page">
+          <ul className="pied-liens">
+            <li>
+              <Link href="/produits">La carte</Link>
+            </li>
+            <li>
+              <Link href="/la-maison">La maison</Link>
+            </li>
+            <li>
+              <Link href="/contact">Horaires</Link>
+            </li>
+            <li>
+              <Link href="/mentions-legales">Mentions légales</Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </footer>
   );

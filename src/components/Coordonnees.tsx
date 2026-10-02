@@ -30,6 +30,7 @@ export default function Coordonnees() {
                 rel="noreferrer"
               >
                 Voir l&apos;itinéraire
+                <span className="visuellement-cache"> (s&apos;ouvre dans un nouvel onglet)</span>
               </a>
             </>
           ) : (
@@ -65,6 +66,7 @@ export default function Coordonnees() {
               rel="noreferrer"
             >
               @{boulangerie.instagram.replace(/^@/, "")}
+              <span className="visuellement-cache"> (s&apos;ouvre dans un nouvel onglet)</span>
             </a>
           </dd>
         </div>
