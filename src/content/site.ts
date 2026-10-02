@@ -46,6 +46,13 @@ export const boulangerie = {
   telephone: "",
   email: "",
   instagram: "",
+
+  /**
+   * Adresse du site une fois en ligne, sans barre finale (ex. "https://www.exemple.fr").
+   * Sert aux liens absolus : plan du site, image de partage, données pour Google.
+   * Vide : sur Vercel, l'adresse du projet est utilisée automatiquement.
+   */
+  siteUrl: "",
 };
 
 /**
