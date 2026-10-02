@@ -139,7 +139,14 @@ describe("urlDuSite et descriptionSite", () => {
     expect(urlDuSite()).not.toMatch(/\/$/);
   });
 
-  it("la description par défaut ne contient que des informations connues", () => {
-    expect(descriptionSite()).toContain(boulangerie.nom);
+  it("description : l'accroche si elle existe", () => {
+    expect(descriptionSite(COMPLETE)).toBe("Une phrase.");
+  });
+
+  it("description sans accroche : le nom, et la ville seulement si elle est connue", () => {
+    expect(descriptionSite(VIDE)).toBe(`${boulangerie.nom}.`);
+    expect(descriptionSite({ ...VIDE, adresse: { rue: "", codePostal: "", ville: "Lyon" } })).toBe(
+      `${boulangerie.nom}, Lyon.`,
+    );
   });
 });

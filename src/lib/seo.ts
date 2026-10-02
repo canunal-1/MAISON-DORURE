@@ -14,10 +14,10 @@ export function urlDuSite(): string {
 }
 
 /** Description par défaut, faite uniquement d'informations connues. */
-export function descriptionSite(): string {
-  if (boulangerie.accroche) return boulangerie.accroche;
-  const { ville } = boulangerie.adresse;
-  return ville ? `${boulangerie.nom}, ${ville}.` : `${boulangerie.nom}.`;
+export function descriptionSite(infos: typeof boulangerie = boulangerie): string {
+  if (infos.accroche) return infos.accroche;
+  const { ville } = infos.adresse;
+  return ville ? `${infos.nom}, ${ville}.` : `${infos.nom}.`;
 }
 
 // Dans l'ordre de `horaires` : du lundi au dimanche.

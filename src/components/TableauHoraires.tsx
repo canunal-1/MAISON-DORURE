@@ -30,8 +30,9 @@ export default function TableauHoraires() {
     : horaires.map((jour) => ({ jour, date: "", fermeture: undefined }));
   const aVenir = maintenant ? fermeturesAVenir(fermetures, maintenant.date) : [];
 
+  // Un seul élément racine : sur l'accueil, le composant est un enfant direct de la grille.
   return (
-    <>
+    <div>
       <table className="horaires">
         <caption className="visuellement-cache">Horaires d&apos;ouverture de la semaine</caption>
         <tbody>
@@ -46,7 +47,12 @@ export default function TableauHoraires() {
                 {fermeture ? (
                   <td className="est-ferme">
                     Fermé le {formaterJourMois(date)}
-                    {fermeture.motif && <span className="horaires-motif">{fermeture.motif}</span>}
+                    {fermeture.motif && (
+                      <span className="horaires-motif">
+                        <span className="visuellement-cache">, </span>
+                        {fermeture.motif}
+                      </span>
+                    )}
                   </td>
                 ) : (
                   <td className={jour.plages.length === 0 ? "est-ferme" : undefined}>
@@ -66,12 +72,17 @@ export default function TableauHoraires() {
             {aVenir.map((fermeture) => (
               <li key={`${fermeture.du}-${fermeture.au ?? ""}`}>
                 {formaterPeriode(fermeture, maintenant.date)}
-                {fermeture.motif && <span className="horaires-motif">{fermeture.motif}</span>}
+                {fermeture.motif && (
+                  <span className="horaires-motif">
+                    <span className="visuellement-cache">, </span>
+                    {fermeture.motif}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 }
