@@ -164,8 +164,20 @@ export const maison = {
 
 export const commande = {
   titre: "Passer une commande",
-  /** Comment commander (délai, téléphone…). Vide = la section n'est pas affichée. */
+  /** Comment commander (délai, téléphone…). Vide = pas de texte d'introduction. */
   texte: "",
+  /**
+   * Délai minimum entre la demande et le retrait, en jours : le formulaire refuse les
+   * dates plus proches. 0 = retrait possible dès aujourd'hui.
+   */
+  delaiJours: 0,
+  /**
+   * Le formulaire de commande n'apparaît que si l'e-mail de la boutique est renseigné
+   * (`boulangerie.email`) ET que le service d'envoi est configuré (voir le README).
+   */
+  avertissement:
+    "Cette demande n'est pas une commande confirmée : elle l'est lorsque la boutique vous a répondu.",
+  merci: "Votre demande a bien été envoyée à la boutique.",
 };
 
 /** Obligations légales : à remplir pour que la page « Mentions légales » soit complète. */
@@ -179,5 +191,12 @@ export const mentionsLegales = {
     adresse: "",
     /** Adresse du site de l'hébergeur (ex. "https://vercel.com"). */
     site: "",
+  },
+  /** Données saisies dans le formulaire de commande (section affichée seulement s'il est actif). */
+  donnees: {
+    /** Combien de temps les demandes sont gardées (à décider), ex. "3 mois". */
+    conservation: "",
+    /** Service qui transporte l'e-mail de la demande jusqu'à la boutique. */
+    prestataireEmail: "Resend (service d'envoi d'e-mails)",
   },
 };
