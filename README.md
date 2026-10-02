@@ -17,6 +17,22 @@ Tout le contenu est dans **`src/content/site.ts`** : nom, adresse, téléphone, 
 
 Une information inconnue reste **vide** (`""` ou `[]`) : le site affiche « à venir » ou masque la section, sans rien inventer. Le fichier explique le format de chaque champ.
 
+### Fermetures exceptionnelles (jours fériés, congés)
+
+Dans `site.ts`, la liste `fermetures` : un jour (`du`) ou une période (`du` → `au`), avec un motif facultatif. Le site affiche « Fermé aujourd'hui », décale la prochaine ouverture, barre le jour concerné dans le tableau des horaires et déclare la fermeture à Google. Les dates passées s'ignorent toutes seules.
+
+### Photos
+
+Déposer les fichiers dans `public/photos/`, puis les déclarer dans `site.ts` (rubrique `photos`, et champ `photo` des produits « phare »). **Sans photo déclarée, rien n'est affiché** : aucun cadre vide, aucune image de remplacement. Chaque photo doit avoir une description (`alt`) ; `npm test` vérifie que le fichier existe.
+
+### Allergènes
+
+Champ `allergenes` facultatif par produit, choisi parmi les 14 allergènes officiels. Absent : rien n'est affiché (le site n'écrit jamais « sans allergène »).
+
+### Adresse du site
+
+Renseigner `siteUrl` dans `site.ts` une fois le nom de domaine connu. Sur Vercel, l'adresse du projet est utilisée automatiquement en attendant.
+
 ## Organisation
 
 | Dossier | Rôle |
