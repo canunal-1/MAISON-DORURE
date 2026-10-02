@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { adresseComplete } from "@/components/Coordonnees";
 import { boulangerie, mentionsLegales } from "@/content/site";
+import { commandeDisponible } from "@/lib/commande";
 import { lienTelephone } from "@/lib/horaires";
 
 export const metadata: Metadata = {
@@ -20,7 +21,8 @@ function Ligne({ intitule, children }: { intitule: string; children?: ReactNode 
 }
 
 export default function MentionsLegales() {
-  const { hebergeur } = mentionsLegales;
+  const { hebergeur, donnees } = mentionsLegales;
+  const formulaire = commandeDisponible();
 
   return (
     <>
@@ -68,7 +70,33 @@ export default function MentionsLegales() {
         </div>
       </section>
 
-      <section className="bloc" aria-labelledby="titre-credits">
+      {formulaire && (
+        <section className="bloc" id="donnees" aria-labelledby="titre-donnees">
+          <div className="bloc-contenu etroit">
+            <h2 id="titre-donnees">Données personnelles</h2>
+            <p>Ce site ne recueille des données que par le formulaire de commande.</p>
+            <dl className="coordonnees">
+              <Ligne intitule="Données recueillies">
+                Nom, numéro de téléphone, date de retrait souhaitée et texte de la demande.
+              </Ligne>
+              <Ligne intitule="Finalité">Traiter votre demande de commande et vous répondre.</Ligne>
+              <Ligne intitule="Destinataires">
+                La boutique, par e-mail. L&apos;e-mail est acheminé par {donnees.prestataireEmail}.
+              </Ligne>
+              <Ligne intitule="Durée de conservation">{donnees.conservation}</Ligne>
+              <Ligne intitule="Vos droits">
+                Vous pouvez demander l&apos;accès, la rectification ou la suppression de vos données
+                en écrivant à <a href={`mailto:${boulangerie.email}`}>{boulangerie.email}</a>.
+              </Ligne>
+            </dl>
+          </div>
+        </section>
+      )}
+
+      <section
+        className={formulaire ? "bloc bloc-papier" : "bloc"}
+        aria-labelledby="titre-credits"
+      >
         <div className="bloc-contenu etroit">
           <h2 id="titre-credits">Crédits</h2>
           <p>

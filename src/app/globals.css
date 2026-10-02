@@ -17,6 +17,8 @@
   --craie: #ece8dd;
   --croute: #8a4a1c; /* liens et repères sur fond clair */
   --encre: #17231d; /* texte */
+  --erreur: #8f1d1d; /* messages d'erreur du formulaire */
+  --bordure-champ: #5b6b62; /* contour des champs (3:1 minimum sur le fond) */
 
   /* Typographie */
   --enseigne: "Gloock", "Bodoni 72", Didot, Georgia, serif;
@@ -787,6 +789,108 @@ main:focus {
 .fermetures li {
   padding: 0.55rem 0.75rem;
   border-bottom: 1px solid rgb(23 35 29 / 0.14);
+}
+
+/* ---------- Formulaire de commande ---------- */
+
+.commande-formulaire form {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.champ label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.champ input,
+.champ textarea {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1.5px solid var(--bordure-champ);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--encre);
+  font: inherit;
+  line-height: 1.4;
+}
+
+.champ textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.champ [aria-invalid="true"] {
+  border-color: var(--erreur);
+  border-width: 2px;
+}
+
+.champ-aide {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: rgb(23 35 29 / 0.72);
+}
+
+.champ-erreur {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--erreur);
+}
+
+.commande-formulaire .bouton {
+  justify-self: start;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.commande-formulaire .bouton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.commande-message {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+}
+
+.commande-message > :last-child {
+  margin-bottom: 0;
+}
+
+.commande-message-titre {
+  margin-bottom: 0.4rem;
+  font-family: var(--enseigne);
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.commande-message ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.commande-succes {
+  background: #eaf1e6;
+  border: 2px solid var(--devanture);
+}
+
+.commande-probleme {
+  background: #fdf0ee;
+  border: 2px solid var(--erreur);
+}
+
+/* Piège à robots : sorti de l'écran, mais présent dans la page. */
+.piege {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 /* ---------- Engagements (La maison) ---------- */

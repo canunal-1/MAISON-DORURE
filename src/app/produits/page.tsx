@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Ardoise from "@/components/Ardoise";
 import { boulangerie, carte, commande, introCarte } from "@/content/site";
+import { commandeDisponible } from "@/lib/commande";
 
 export const metadata: Metadata = {
   title: "La carte",
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default function Produits() {
+  const formulaire = commandeDisponible();
+
   return (
     <>
       <section className="bandeau">
@@ -43,14 +46,14 @@ export default function Produits() {
         </div>
       </section>
 
-      {commande.texte && (
+      {(commande.texte || formulaire) && (
         <section className="bloc" aria-labelledby="titre-commande">
           <div className="bloc-contenu etroit">
             <h2 id="titre-commande">{commande.titre}</h2>
-            <p>{commande.texte}</p>
+            {commande.texte && <p>{commande.texte}</p>}
             <div className="actions">
-              <Link className="bouton bouton-fonce" href="/contact">
-                Voir les coordonnées
+              <Link className="bouton bouton-fonce" href={formulaire ? "/contact#commande" : "/contact"}>
+                {formulaire ? "Passer une commande" : "Voir les coordonnées"}
               </Link>
             </div>
           </div>
