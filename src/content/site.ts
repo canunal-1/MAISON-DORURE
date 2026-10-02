@@ -36,6 +36,26 @@ export type Fermeture = {
   motif?: string;
 };
 
+/** Les 14 allergènes à déclaration obligatoire (règlement européen n° 1169/2011). */
+export const ALLERGENES = [
+  "gluten",
+  "crustacés",
+  "œufs",
+  "poissons",
+  "arachides",
+  "soja",
+  "lait",
+  "fruits à coque",
+  "céleri",
+  "moutarde",
+  "sésame",
+  "sulfites",
+  "lupin",
+  "mollusques",
+] as const;
+
+export type Allergene = (typeof ALLERGENES)[number];
+
 export type Produit = {
   nom: string;
   /** Prix en euros. */
@@ -45,6 +65,12 @@ export type Produit = {
   phare?: boolean;
   /** Photo du produit : montrée sur la page d'accueil, pour les produits « phare ». */
   photo?: Photo;
+  /**
+   * Allergènes présents, parmi la liste officielle (propositions à l'écriture).
+   * Absent ou vide : rien n'est affiché. Le site n'écrit jamais « sans allergène » :
+   * ne renseigner que ce qui a été vérifié.
+   */
+  allergenes?: Allergene[];
 };
 
 export type Categorie = {
@@ -107,7 +133,7 @@ export const fermetures: Fermeture[] = [];
  *   {
  *     id: "pains",                       // sans espace ni accent
  *     titre: "Pains",
- *     produits: [{ nom: "…", prix: 0, detail: "…", phare: true }],
+ *     produits: [{ nom: "…", prix: 0, detail: "…", phare: true, allergenes: ["gluten", "lait"] }],
  *   }
  */
 export const carte: Categorie[] = [];

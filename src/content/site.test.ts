@@ -1,7 +1,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { boulangerie, carte, fermetures, horaires, mentionsLegales, photos } from "./site";
+import { ALLERGENES, boulangerie, carte, fermetures, horaires, mentionsLegales, photos } from "./site";
 import { dateValide } from "@/lib/horaires";
 
 /**
@@ -71,6 +71,24 @@ describe("carte", () => {
         expect(produit.prix, `prix de « ${produit.nom} »`).toBeGreaterThanOrEqual(0);
       }
     }
+  });
+});
+
+describe("allergènes", () => {
+  it("sont tous dans la liste officielle, sans doublon par produit", () => {
+    for (const categorie of carte) {
+      for (const produit of categorie.produits) {
+        const liste = produit.allergenes ?? [];
+        expect(new Set(liste).size, `doublon pour « ${produit.nom} »`).toBe(liste.length);
+        for (const allergene of liste) {
+          expect(ALLERGENES as readonly string[], `« ${allergene} » (${produit.nom})`).toContain(allergene);
+        }
+      }
+    }
+  });
+
+  it("la liste officielle compte bien 14 allergènes", () => {
+    expect(ALLERGENES).toHaveLength(14);
   });
 });
 

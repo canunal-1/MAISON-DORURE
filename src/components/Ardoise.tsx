@@ -15,6 +15,12 @@ export default function Ardoise({ categorie }: { categorie: Categorie }) {
               <span className="ardoise-prix">{formaterPrix(produit.prix)}</span>
             </div>
             {produit.detail && <p className="ardoise-detail">{produit.detail}</p>}
+            {produit.allergenes && produit.allergenes.length > 0 && (
+              <p className="ardoise-allergenes">
+                <span className="ardoise-allergenes-titre">Allergènes :</span>{" "}
+                {produit.allergenes.join(", ")}
+              </p>
+            )}
           </li>
         ))}
       </ul>
