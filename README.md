@@ -24,8 +24,20 @@ Une information inconnue reste **vide** (`""` ou `[]`) : le site affiche « à v
 | `src/content/site.ts` | Le contenu du site |
 | `src/app/` | Les pages : accueil, `/produits`, `/la-maison`, `/contact` |
 | `src/components/` | Les éléments réutilisés (enseigne, store, ardoise, horaires, pied de page) |
-| `src/lib/horaires.ts` | Calcul « ouvert / fermé » à l'heure de Paris, formats d'heures et de prix |
+| `src/lib/horaires.ts` | Calcul « ouvert / fermé » à l'heure de Paris, fermetures exceptionnelles, formats d'heures et de prix |
+| `src/lib/seo.ts` | Adresse du site, description, données structurées Google (JSON-LD) |
+| `*.test.ts` | Tests automatiques (Vitest) |
 | `src/app/globals.css` | Couleurs, typographie et mise en page |
+
+## Vérifier
+
+```bash
+npm test        # tests : horaires, fermetures, fuseaux horaires, contenu de site.ts
+npm run lint
+npm run build
+```
+
+`npm test` relit aussi `src/content/site.ts` : une heure, une date ou un SIRET mal saisi fait échouer le test avec un message clair.
 
 ## Mettre en ligne
 
