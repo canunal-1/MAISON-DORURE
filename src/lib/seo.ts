@@ -1,7 +1,7 @@
 import { boulangerie, horaires, type Jour } from "@/content/site";
 
 /** Les pages publiques, pour le plan du site. */
-export const pages = ["/", "/produits", "/la-maison", "/contact"];
+export const pages = ["/", "/produits", "/la-maison", "/contact", "/mentions-legales"];
 
 /** Adresse publique du site, sans barre finale. */
 export function urlDuSite(): string {

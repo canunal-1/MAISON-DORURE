@@ -93,3 +93,17 @@ export const commande = {
   /** Comment commander (délai, téléphone…). Vide = la section n'est pas affichée. */
   texte: "",
 };
+
+/** Obligations légales : à remplir pour que la page « Mentions légales » soit complète. */
+export const mentionsLegales = {
+  /** Nom et prénom de la personne responsable de la publication du site. */
+  responsable: "",
+  /** 14 chiffres. */
+  siret: "",
+  hebergeur: {
+    nom: "",
+    adresse: "",
+    /** Adresse du site de l'hébergeur (ex. "https://vercel.com"). */
+    site: "",
+  },
+};

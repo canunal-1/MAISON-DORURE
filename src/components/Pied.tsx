@@ -58,6 +58,9 @@ export default function Pied() {
           <li>
             <Link href="/contact">Horaires</Link>
           </li>
+          <li>
+            <Link href="/mentions-legales">Mentions légales</Link>
+          </li>
         </ul>
       </div>
     </footer>
