@@ -2,9 +2,11 @@ import Link from "next/link";
 import Ardoise from "@/components/Ardoise";
 import Coordonnees from "@/components/Coordonnees";
 import EtatBoutique from "@/components/EtatBoutique";
+import Photographie from "@/components/Photographie";
+import PhotosPhares from "@/components/PhotosPhares";
 import Store from "@/components/Store";
 import TableauHoraires from "@/components/TableauHoraires";
-import { boulangerie, carte, type Categorie } from "@/content/site";
+import { boulangerie, carte, photos, type Categorie } from "@/content/site";
 
 /** Les produits marqués « phare » dans le contenu, regroupés par catégorie. */
 const selection: Categorie[] = carte
@@ -41,6 +43,12 @@ export default function Accueil() {
               </div>
             </div>
           </div>
+          <Photographie
+            photo={photos.accueil}
+            format="large"
+            sizes="(max-width: 72rem) 100vw, 68rem"
+            className="vitrine-photo"
+          />
         </div>
       </section>
 
@@ -51,6 +59,7 @@ export default function Accueil() {
               <h2 id="titre-ardoise">Sur l&apos;ardoise</h2>
               <p>Une sélection de la carte.</p>
             </div>
+            <PhotosPhares selection={selection} />
             <div className="ardoise-colonnes">
               {selection.map((categorie) => (
                 <Ardoise key={categorie.id} categorie={categorie} />

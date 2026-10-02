@@ -1,5 +1,7 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { boulangerie, carte, fermetures, horaires, mentionsLegales } from "./site";
+import { boulangerie, carte, fermetures, horaires, mentionsLegales, photos } from "./site";
 import { dateValide } from "@/lib/horaires";
 
 /**
@@ -83,5 +85,25 @@ describe("coordonnées et mentions légales", () => {
 
   it("l'e-mail, s'il est renseigné, a un format plausible", () => {
     if (boulangerie.email) expect(boulangerie.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+  });
+});
+
+describe("photos", () => {
+  const toutes = [
+    ...Object.entries(photos).map(([emplacement, photo]) => ({ emplacement, photo })),
+    ...carte.flatMap((c) => c.produits.map((p) => ({ emplacement: p.nom, photo: p.photo }))),
+  ].flatMap(({ emplacement, photo }) => (photo ? [{ emplacement, photo }] : []));
+
+  it("pointent vers un fichier qui existe dans public/photos/", () => {
+    for (const { emplacement, photo } of toutes) {
+      expect(photo.src, `${emplacement} : chemin`).toMatch(/^\/photos\/[\w.-]+\.(jpe?g|png|webp|avif)$/i);
+      expect(existsSync(join(process.cwd(), "public", photo.src)), `${emplacement} : ${photo.src} introuvable`).toBe(true);
+    }
+  });
+
+  it("ont une description (alt) non vide", () => {
+    for (const { emplacement, photo } of toutes) {
+      expect(photo.alt.trim(), `${emplacement} : alt manquant`).not.toBe("");
+    }
   });
 });

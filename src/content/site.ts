@@ -16,6 +16,16 @@ export type Jour = {
   plages: Plage[];
 };
 
+/** Une photo rangée dans le dossier public/photos/. */
+export type Photo = {
+  /** Chemin depuis public/, ex. "/photos/vitrine.jpg". */
+  src: string;
+  /** Description pour les personnes qui ne voient pas l'image : obligatoire. */
+  alt: string;
+  /** Facultatif : partie de la photo à garder quand elle est recadrée, ex. "center 30%". */
+  cadrage?: string;
+};
+
 /** Une fermeture exceptionnelle : un jour (`du`) ou une période (`du` → `au`, inclus). */
 export type Fermeture = {
   /** Format "AAAA-MM-JJ". */
@@ -33,6 +43,8 @@ export type Produit = {
   detail?: string;
   /** Affiché aussi sur la page d'accueil. */
   phare?: boolean;
+  /** Photo du produit : montrée sur la page d'accueil, pour les produits « phare ». */
+  photo?: Photo;
 };
 
 export type Categorie = {
@@ -102,6 +114,19 @@ export const carte: Categorie[] = [];
 
 /** Phrase d'introduction en haut de la page « La carte ». Facultatif. */
 export const introCarte = "";
+
+/**
+ * Les photos du site. `null` = pas de photo : aucun cadre vide n'est affiché.
+ * Déposer le fichier dans public/photos/ puis renseigner :
+ *
+ *   accueil: { src: "/photos/vitrine.jpg", alt: "Description de la photo" },
+ *
+ * Les photos des produits phares se renseignent dans `carte` (champ `photo`).
+ */
+export const photos: { accueil: Photo | null; maison: Photo | null } = {
+  accueil: null,
+  maison: null,
+};
 
 export const maison = {
   titre: "La maison",
