@@ -16,6 +16,16 @@ export type Jour = {
   plages: Plage[];
 };
 
+/** Une fermeture exceptionnelle : un jour (`du`) ou une période (`du` → `au`, inclus). */
+export type Fermeture = {
+  /** Format "AAAA-MM-JJ". */
+  du: string;
+  /** Dernier jour fermé, même format. Absent = un seul jour. */
+  au?: string;
+  /** Affiché aux visiteurs : "Jour férié", "Congés annuels"… */
+  motif?: string;
+};
+
 export type Produit = {
   nom: string;
   /** Prix en euros. */
@@ -65,6 +75,19 @@ export const boulangerie = {
  *   { nom: "Samedi", plages: [["HH:MM", "HH:MM"], ["HH:MM", "HH:MM"]] }, // coupure
  */
 export const horaires: Jour[] = [];
+
+/**
+ * Jours fériés et congés pendant lesquels la boutique est fermée, en plus des
+ * horaires habituels. Le site les respecte : « Fermé aujourd'hui », prochaine
+ * ouverture décalée, jour barré dans le tableau des horaires.
+ * Les dates passées sont ignorées toutes seules ; on peut les laisser.
+ *
+ *   { du: "AAAA-MM-JJ", motif: "Jour férié" },                         // un jour
+ *   { du: "AAAA-MM-JJ", au: "AAAA-MM-JJ", motif: "Congés annuels" },   // une période
+ *
+ * Vide = aucune fermeture annoncée.
+ */
+export const fermetures: Fermeture[] = [];
 
 /**
  * La carte, par catégorie. Liste vide = « La carte arrive bientôt ».

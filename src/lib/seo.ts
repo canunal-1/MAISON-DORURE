@@ -1,4 +1,5 @@
-import { boulangerie, horaires, type Jour } from "@/content/site";
+import { boulangerie, fermetures, horaires, type Fermeture, type Jour } from "@/content/site";
+import { fermeturesAVenir, maintenantAParis } from "@/lib/horaires";
 
 /** Les pages publiques, pour le plan du site. */
 export const pages = ["/", "/produits", "/la-maison", "/contact", "/mentions-legales"];
@@ -53,9 +54,22 @@ function horairesStructures(semaine: Jour[]) {
  * Données structurées schema.org (type Bakery) lues par Google.
  * Seules les informations renseignées dans site.ts sont émises.
  */
-export function donneesStructurees(infos: typeof boulangerie = boulangerie, semaine: Jour[] = horaires) {
+export function donneesStructurees(
+  infos: typeof boulangerie = boulangerie,
+  semaine: Jour[] = horaires,
+  exceptions: Fermeture[] = fermetures,
+  aujourdhui: string = maintenantAParis().date,
+) {
   const { rue, codePostal, ville } = infos.adresse;
-  const specifications = horairesStructures(semaine);
+  // Fermeture exceptionnelle : « ouvert de 00:00 à 00:00 » sur la période, selon schema.org.
+  const fermees = fermeturesAVenir(exceptions, aujourdhui).map(({ du, au }) => ({
+    "@type": "OpeningHoursSpecification",
+    opens: "00:00",
+    closes: "00:00",
+    validFrom: du,
+    validThrough: au ?? du,
+  }));
+  const specifications = [...horairesStructures(semaine), ...(semaine.length > 0 ? fermees : [])];
 
   return {
     "@context": "https://schema.org",

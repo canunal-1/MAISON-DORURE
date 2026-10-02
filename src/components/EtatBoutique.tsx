@@ -1,6 +1,6 @@
 "use client";
 
-import { horaires } from "@/content/site";
+import { fermetures, horaires } from "@/content/site";
 import { etatBoutique } from "@/lib/horaires";
 import { useMinute } from "@/lib/useMinute";
 
@@ -16,7 +16,7 @@ export default function EtatBoutique() {
       ? etatBoutique(horaires)
       : minute === null
         ? null
-        : etatBoutique(horaires, new Date(minute * 60_000));
+        : etatBoutique(horaires, new Date(minute * 60_000), fermetures);
 
   return (
     <div className="etat" aria-live="polite">
