@@ -1,0 +1,717 @@
+/*
+ * Boulangerie Maaned — feuille de style du site.
+ *
+ * Le site reprend ce qu'on voit depuis le trottoir : une devanture en bois
+ * peint vert, une enseigne dorée, un store rayé, puis l'ardoise des prix.
+ */
+
+:root {
+  /* Couleurs */
+  --devanture: #1e3a2f; /* bois peint de la façade */
+  --devanture-fonce: #14281f; /* vitrine, pied de page */
+  --or: #d9a93d; /* lettres de l'enseigne */
+  --or-clair: #efd591;
+  --farine: #f3f2ec; /* fond des pages */
+  --papier: #fbfaf6; /* fond des blocs clairs */
+  --ardoise: #25282a;
+  --craie: #ece8dd;
+  --croute: #8a4a1c; /* liens et repères sur fond clair */
+  --encre: #17231d; /* texte */
+
+  /* Typographie */
+  --enseigne: "Gloock", "Bodoni 72", Didot, Georgia, serif;
+  --texte: "Hanken Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+
+  /* Mise en page */
+  --largeur: 68rem;
+  --marge: clamp(1.25rem, 4vw, 2.5rem);
+  --respiration: clamp(3.5rem, 8vw, 6rem);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--farine);
+  color: var(--encre);
+  font-family: var(--texte);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  flex: 1;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--enseigne);
+  font-weight: 400;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  margin-bottom: 1.5rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--croute);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--or);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.visuellement-cache {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.aller-au-contenu {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 10;
+  padding: 0.6rem 1rem;
+  background: var(--or);
+  color: var(--devanture-fonce);
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.aller-au-contenu:focus {
+  top: 1rem;
+}
+
+/* ---------- En-tête ---------- */
+
+.entete {
+  background: var(--devanture);
+  color: var(--craie);
+}
+
+.entete-contenu {
+  max-width: calc(var(--largeur) + 2 * var(--marge));
+  margin: 0 auto;
+  padding: 1rem var(--marge);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+}
+
+.marque {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--or);
+  font-family: var(--enseigne);
+  font-size: 1.5rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu a {
+  display: block;
+  padding: 0.35rem 0;
+  color: var(--craie);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.menu a:hover {
+  border-bottom-color: rgb(236 232 221 / 0.5);
+}
+
+.menu a[aria-current="page"] {
+  color: var(--or-clair);
+  border-bottom-color: var(--or);
+}
+
+/* ---------- Devanture (accueil) ---------- */
+
+.devanture {
+  background: var(--devanture);
+  color: var(--craie);
+}
+
+.enseigne {
+  padding: clamp(1rem, 3vw, 2rem) var(--marge) clamp(2rem, 5vw, 3.5rem);
+}
+
+.enseigne h1 {
+  max-width: var(--largeur);
+  margin: 0 auto;
+  padding: clamp(1.75rem, 5vw, 3.5rem) 1rem clamp(1.5rem, 4vw, 3rem);
+  /* Le cadre mouluré du panneau d'enseigne. */
+  border: 1px solid rgb(217 169 61 / 0.55);
+  outline: 1px solid rgb(217 169 61 / 0.25);
+  outline-offset: 6px;
+  text-align: center;
+}
+
+.enseigne-metier,
+.enseigne-nom {
+  display: block;
+}
+
+.enseigne-metier {
+  font-size: clamp(1.15rem, 3.2vw, 2.1rem);
+  letter-spacing: 0.32em;
+  /* Compense l'espacement après la dernière lettre pour rester centré. */
+  margin-right: -0.32em;
+  color: var(--craie);
+}
+
+.enseigne-nom {
+  margin-top: 0.08em;
+  font-size: clamp(4rem, 19vw, 13.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--or);
+  /* Reflet de la feuille d'or. */
+  background: linear-gradient(176deg, var(--or-clair) 8%, var(--or) 46%, #b9862a 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.store {
+  display: block;
+  background: var(--devanture-fonce);
+  filter: drop-shadow(0 6px 5px rgb(0 0 0 / 0.28));
+  position: relative;
+  z-index: 1;
+}
+
+.store-raie-claire {
+  fill: var(--craie);
+}
+
+.store-raie-or {
+  fill: var(--or);
+}
+
+.vitrine {
+  background: var(--devanture-fonce);
+  padding: clamp(1.5rem, 4vw, 3rem) var(--marge) var(--respiration);
+}
+
+.vitrine-contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 2rem clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+
+.vitrine-texte p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  max-width: 28rem;
+  margin-bottom: 1.75rem;
+}
+
+/* ---------- État de la boutique ---------- */
+
+.etat-titre {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45em;
+  margin: 0 0 0.4rem;
+  font-family: var(--enseigne);
+  font-size: clamp(1.75rem, 4.2vw, 3rem);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.etat-pastille {
+  flex: none;
+  width: 0.34em;
+  height: 0.34em;
+  border-radius: 50%;
+  background: rgb(236 232 221 / 0.35);
+  transform: translateY(-0.12em);
+}
+
+.etat-pastille.est-ouvert {
+  background: #8fd694;
+  box-shadow: 0 0 0 0.12em rgb(143 214 148 / 0.25);
+}
+
+.etat-detail {
+  margin: 0;
+  min-height: 1.6em;
+  color: rgb(236 232 221 / 0.8);
+}
+
+/* ---------- Boutons ---------- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.bouton {
+  display: inline-block;
+  padding: 0.75rem 1.35rem;
+  border: 1.5px solid var(--or);
+  border-radius: 6px;
+  background: var(--or);
+  color: var(--devanture-fonce);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.bouton:hover {
+  background: var(--or-clair);
+  border-color: var(--or-clair);
+}
+
+.bouton-discret {
+  background: transparent;
+  border-color: rgb(236 232 221 / 0.55);
+  color: var(--craie);
+}
+
+.bouton-discret:hover {
+  background: rgb(236 232 221 / 0.1);
+  border-color: var(--craie);
+}
+
+.bouton-fonce {
+  background: var(--devanture);
+  border-color: var(--devanture);
+  color: var(--papier);
+}
+
+.bouton-fonce:hover {
+  background: var(--devanture-fonce);
+  border-color: var(--devanture-fonce);
+}
+
+/* ---------- Ardoise (la carte) ---------- */
+
+.ardoise {
+  background-color: var(--ardoise);
+  /* Traces de craie effacée. */
+  background-image:
+    radial-gradient(60rem 22rem at 12% 0%, rgb(236 232 221 / 0.07), transparent 70%),
+    radial-gradient(50rem 26rem at 95% 100%, rgb(236 232 221 / 0.05), transparent 70%);
+  color: var(--craie);
+  padding: var(--respiration) var(--marge);
+}
+
+.ardoise-contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+}
+
+.ardoise-entete {
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.ardoise-entete h2 {
+  margin-bottom: 0.5rem;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+}
+
+.ardoise-entete p {
+  margin: 0;
+  color: rgb(236 232 221 / 0.78);
+}
+
+.ardoise-colonnes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: clamp(2.5rem, 5vw, 3.5rem) clamp(2rem, 6vw, 5rem);
+}
+
+.ardoise-complete .ardoise-colonnes {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+}
+
+.ardoise-categorie {
+  scroll-margin-top: 2rem;
+}
+
+.ardoise-categorie h3 {
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid rgb(236 232 221 / 0.3);
+  font-size: 1.75rem;
+  color: var(--or-clair);
+}
+
+.ardoise-liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ardoise-liste li + li {
+  margin-top: 0.95rem;
+}
+
+.ardoise-ligne {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 1.125rem;
+  line-height: 1.35;
+}
+
+.ardoise-points {
+  flex: 1;
+  min-width: 1.5rem;
+  border-bottom: 2px dotted rgb(236 232 221 / 0.35);
+  transform: translateY(-0.28em);
+}
+
+.ardoise-prix {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.ardoise-detail {
+  margin: 0.1rem 0 0;
+  font-size: 0.95rem;
+  color: rgb(236 232 221 / 0.72);
+}
+
+.ardoise-note {
+  margin: 1.25rem 0 0;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--or);
+  font-size: 0.95rem;
+  color: rgb(236 232 221 / 0.85);
+}
+
+.ardoise-suite {
+  margin: clamp(2rem, 5vw, 3rem) 0 0;
+}
+
+.ardoise a {
+  color: var(--or-clair);
+}
+
+/* ---------- Bandeau des pages intérieures ---------- */
+
+.bandeau {
+  background: var(--devanture);
+  color: var(--craie);
+  padding: clamp(2rem, 6vw, 4rem) var(--marge) clamp(2.5rem, 7vw, 4.5rem);
+  border-bottom: 6px solid var(--or);
+}
+
+.bandeau-contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+}
+
+.bandeau h1 {
+  max-width: 16ch;
+  margin-bottom: 1rem;
+  font-size: clamp(2.6rem, 8vw, 5.25rem);
+  color: var(--or-clair);
+}
+
+.bandeau-contenu > p {
+  max-width: 36rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.bandeau-contenu > :last-child {
+  margin-bottom: 0;
+}
+
+.sommaire {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sommaire a {
+  color: var(--or-clair);
+}
+
+/* ---------- Blocs clairs ---------- */
+
+.bloc {
+  padding: var(--respiration) var(--marge);
+}
+
+.bloc-papier {
+  background: var(--papier);
+}
+
+.bloc-contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+}
+
+.bloc-contenu.etroit > * {
+  max-width: 40rem;
+}
+
+.bloc-contenu > :last-child {
+  margin-bottom: 0;
+}
+
+.bloc .actions {
+  margin-top: 2rem;
+}
+
+.texte-long p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.texte-long p:first-child {
+  font-family: var(--enseigne);
+  font-size: clamp(1.6rem, 3.6vw, 2.25rem);
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+}
+
+.deux-colonnes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem clamp(2rem, 7vw, 6rem);
+  align-items: start;
+}
+
+/* ---------- Coordonnées ---------- */
+
+.coordonnees {
+  margin: 0;
+}
+
+.coordonnees > div + div {
+  margin-top: 1.5rem;
+}
+
+.coordonnees dt {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: rgb(23 35 29 / 0.68);
+}
+
+.coordonnees dd {
+  margin: 0.15rem 0 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.a-venir {
+  color: rgb(23 35 29 / 0.68);
+  font-style: italic;
+}
+
+/* ---------- Horaires ---------- */
+
+.horaires {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.horaires th,
+.horaires td {
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid rgb(23 35 29 / 0.14);
+}
+
+.horaires th {
+  text-align: left;
+  font-weight: 500;
+}
+
+.horaires td {
+  text-align: right;
+}
+
+.horaires .est-ferme {
+  color: rgb(23 35 29 / 0.62);
+}
+
+.horaires .est-aujourdhui th,
+.horaires .est-aujourdhui td {
+  background: var(--papier);
+  font-weight: 700;
+}
+
+.horaires .est-aujourdhui th {
+  box-shadow: inset 4px 0 0 var(--or);
+}
+
+.bloc-papier .horaires .est-aujourdhui th,
+.bloc-papier .horaires .est-aujourdhui td {
+  background: var(--farine);
+}
+
+.horaires-repere {
+  font-weight: 400;
+  color: rgb(23 35 29 / 0.68);
+}
+
+/* ---------- Engagements (La maison) ---------- */
+
+.engagements {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 2.5rem clamp(2rem, 5vw, 4rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.engagements li {
+  padding-top: 1.25rem;
+  border-top: 3px solid var(--devanture);
+}
+
+.engagements h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.5rem;
+}
+
+.engagements p {
+  margin: 0;
+}
+
+/* ---------- Pied de page ---------- */
+
+.pied {
+  background: var(--devanture-fonce);
+  color: rgb(236 232 221 / 0.85);
+  padding: clamp(2.5rem, 6vw, 4rem) var(--marge);
+  font-size: 1rem;
+}
+
+.pied-contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1.3fr auto;
+  gap: 2rem clamp(2rem, 6vw, 5rem);
+}
+
+.pied p {
+  margin: 0 0 0.25rem;
+}
+
+.pied .pied-marque {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--or);
+  font-family: var(--enseigne);
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.pied ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pied-horaires li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.3rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.pied-liens li + li {
+  margin-top: 0.4rem;
+}
+
+.pied a {
+  color: var(--craie);
+}
+
+/* ---------- Petits écrans ---------- */
+
+@media (max-width: 760px) {
+  .vitrine-contenu,
+  .deux-colonnes,
+  .pied-contenu {
+    grid-template-columns: 1fr;
+  }
+
+  .enseigne h1 {
+    outline-offset: 4px;
+  }
+
+  .menu {
+    gap: 0.25rem 1.15rem;
+  }
+
+  .horaires th,
+  .horaires td {
+    padding-inline: 0.5rem;
+  }
+}
