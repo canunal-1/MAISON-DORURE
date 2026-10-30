@@ -49,7 +49,18 @@ export default function Image() {
           >
             Boulangerie
           </div>
-          <div style={{ display: "flex", fontSize: 230, lineHeight: 1.05, color: OR }}>
+          {/* Centré, et sur deux lignes si le nom est trop long pour une seule. */}
+          <div
+            style={{
+              display: "flex",
+              maxWidth: 1000,
+              marginTop: 12,
+              fontSize: 168,
+              lineHeight: 1,
+              color: OR,
+              textAlign: "center",
+            }}
+          >
             {boulangerie.nomCourt}
           </div>
         </div>
