@@ -13,6 +13,29 @@ export function formaterPlages(plages: Plage[]): string {
     .join(" et ");
 }
 
+/**
+ * Les horaires en quelques lignes : jours consécutifs aux mêmes plages regroupés
+ * (« Mardi au samedi »), « Tous les jours » quand la semaine entière est identique.
+ */
+export function resumerHoraires(horaires: Jour[]): { jours: string; heures: string }[] {
+  const groupes: { debut: string; fin: string; heures: string }[] = [];
+
+  for (const jour of horaires) {
+    const heures = formaterPlages(jour.plages);
+    const dernier = groupes[groupes.length - 1];
+    if (dernier && dernier.heures === heures) dernier.fin = jour.nom;
+    else groupes.push({ debut: jour.nom, fin: jour.nom, heures });
+  }
+
+  if (horaires.length === 7 && groupes.length === 1) {
+    return [{ jours: "Tous les jours", heures: groupes[0].heures }];
+  }
+  return groupes.map(({ debut, fin, heures }) => ({
+    jours: debut === fin ? debut : `${debut} au ${fin.toLowerCase()}`,
+    heures,
+  }));
+}
+
 function enMinutes(heure: string): number {
   const [h, m] = heure.split(":").map(Number);
   return h * 60 + m;

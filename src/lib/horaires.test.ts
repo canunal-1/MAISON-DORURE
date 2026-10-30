@@ -13,6 +13,7 @@ import {
   jourDeLaSemaine,
   lienTelephone,
   maintenantAParis,
+  resumerHoraires,
   semaineAVenir,
 } from "./horaires";
 
@@ -483,6 +484,21 @@ describe("formats", () => {
         ["15:00", "19:00"],
       ]),
     ).toBe("7 h – 12 h 30 et 15 h – 19 h");
+  });
+
+  it("resumerHoraires : regroupe les jours consécutifs aux mêmes horaires", () => {
+    expect(resumerHoraires(SEMAINE)).toEqual([
+      { jours: "Lundi", heures: "Fermé" },
+      { jours: "Mardi", heures: "7 h – 12 h 30 et 15 h – 19 h" },
+      { jours: "Mercredi au samedi", heures: "7 h – 19 h" },
+      { jours: "Dimanche", heures: "8 h – 13 h" },
+    ]);
+  });
+
+  it("resumerHoraires : « Tous les jours » quand les 7 jours sont identiques", () => {
+    const semaine = SEMAINE.map(({ nom }): Jour => ({ nom, plages: [["05:00", "22:00"]] }));
+    expect(resumerHoraires(semaine)).toEqual([{ jours: "Tous les jours", heures: "5 h – 22 h" }]);
+    expect(resumerHoraires([])).toEqual([]);
   });
 
   it("formaterPrix : euros à la française", () => {
