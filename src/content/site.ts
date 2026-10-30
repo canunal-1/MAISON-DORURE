@@ -84,6 +84,8 @@ export const boulangerie = {
   nom: "Maison Dorure",
   /** Nom affiché sur l'enseigne, le logo et l'image de partage. */
   nomCourt: "Maison Dorure",
+  /** Le métier, écrit au-dessus du nom sur l'enseigne. */
+  metier: "Boulangerie",
   /** Une phrase de présentation (page d'accueil et résultats de recherche). */
   accroche: "",
 
