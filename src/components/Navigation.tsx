@@ -68,6 +68,7 @@ export default function Navigation() {
           </ul>
         </nav>
       </div>
+      <div className="frise" aria-hidden="true" />
     </header>
   );
 }

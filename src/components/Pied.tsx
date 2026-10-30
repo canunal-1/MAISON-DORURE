@@ -9,6 +9,7 @@ export default function Pied() {
 
   return (
     <footer className="pied">
+      <div className="frise" aria-hidden="true" />
       <div className="pied-contenu">
         <div className="pied-colonnes">
           <section aria-labelledby="pied-adresse">

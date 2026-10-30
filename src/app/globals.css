@@ -1,34 +1,64 @@
 /*
  * Maison Dorure — feuille de style du site.
  *
- * Le site reprend ce qu'on voit depuis le trottoir : une devanture en bois
- * peint vert, une enseigne dorée, un store rayé, puis l'ardoise des prix.
+ * Direction « Faïence » : le mur carrelé d'une boulangerie parisienne et les
+ * plaques émaillées des rues de Paris. Carreaux de métro beiges, plaques et
+ * lettrage brun chocolat, filets et losanges couleur caramel doré.
+ *
+ * TOUTES LES COULEURS SONT DANS LE PREMIER BLOC CI-DESSOUS (« Palette ») :
+ * pour changer une teinte, il suffit de la modifier là.
  */
 
 :root {
-  /* Couleurs */
-  --devanture: #1e3a2f; /* bois peint de la façade */
-  --devanture-fonce: #14281f; /* vitrine, pied de page */
-  --or: #d9a93d; /* lettres de l'enseigne */
-  --or-clair: #efd591;
-  --farine: #f3f2ec; /* fond des pages */
-  --papier: #fbfaf6; /* fond des blocs clairs */
-  --ardoise: #25282a;
-  --craie: #ece8dd;
-  --croute: #8a4a1c; /* liens et repères sur fond clair */
-  --encre: #17231d; /* texte */
-  --erreur: #8f1d1d; /* messages d'erreur du formulaire */
-  --bordure-champ: #5b6b62; /* contour des champs (3:1 minimum sur le fond) */
+  /* ---------- Palette ---------- */
+  --beige: #f5eee3; /* fond des pages */
+  --carreau: #efe5d6; /* carreaux de métro */
+  --carreau-reflet: #f8f2e9; /* haut des carreaux, côté lumière */
+  --joint: #e2d4bf; /* joints des carreaux, filets discrets */
+  --beige-soutenu: #e8d9c4; /* surfaces claires (arcade « La maison »…) */
+  --chocolat: #5a3a22; /* plaques, boutons, titres, liens : 8,8:1 sur le beige */
+  --espresso: #2e1e13; /* texte courant (13,9:1), pied de page */
+  --brun-doux: #6b5440; /* texte secondaire : 6,1:1 sur le beige */
+  --caramel: #b8863b; /* la dorure : décor seulement, jamais de texte sur fond clair */
+  --vert-ouvert: #4e8a5c; /* pastille « ouvert » (3,6:1) */
+  --gris-ferme: #8c8176; /* pastille « fermé » (3,3:1) */
+  --erreur: #9b2c1f; /* messages d'erreur du formulaire (6,6:1) */
+  --champ: #fffcf7; /* fond des champs de formulaire */
 
-  /* Typographie */
-  --enseigne: "Gloock", "Bodoni 72", Didot, Georgia, serif;
-  --texte: "Hanken Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+  /* Rôles : à quoi sert chaque couleur. */
+  --fond: var(--beige);
+  --texte: var(--espresso);
+  --texte-doux: var(--brun-doux);
+  --accent: var(--chocolat);
+  --sur-accent: var(--beige);
+  --lien: var(--chocolat);
+  --focus: var(--chocolat);
+  --focus-sur-sombre: var(--beige);
+  --ombre: color-mix(in srgb, var(--espresso) 40%, transparent);
 
-  /* Mise en page */
-  --largeur: 68rem;
+  /* ---------- Typographie ---------- */
+  --police-titre: "Bodoni Moda Variable", Didot, "Bodoni 72", serif;
+  --police-texte: "Jost Variable", Futura, "Century Gothic", sans-serif;
+
+  /* ---------- Mise en page ---------- */
+  --largeur: 72rem;
   --marge: clamp(1.25rem, 4vw, 2.5rem);
-  --respiration: clamp(3.5rem, 8vw, 6rem);
+  --respiration: clamp(3rem, 7vw, 5rem);
+  --duree: 200ms;
+
+  /*
+   * Motifs : seulement des formes (masques). Leur couleur vient de la palette
+   * ci-dessus, pas de l'image.
+   */
+  /* Carreaux de métro posés en quinconce, 46 × 22 px, joints de 2 px. */
+  --motif-carreaux: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='48'%3E%3Cg%3E%3Crect x='1' y='1' width='46' height='22' rx='2.5'/%3E%3Crect x='49' y='1' width='46' height='22' rx='2.5'/%3E%3Crect x='-23' y='25' width='46' height='22' rx='2.5'/%3E%3Crect x='25' y='25' width='46' height='22' rx='2.5'/%3E%3Crect x='73' y='25' width='46' height='22' rx='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  /* Frise : un losange et deux demi-perles par motif de 24 px. */
+  --motif-frise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='14'%3E%3Cpath d='M12 2 L19 7 L12 12 L5 7 Z'/%3E%3Ccircle cx='0' cy='7' r='2'/%3E%3Ccircle cx='24' cy='7' r='2'/%3E%3C/svg%3E");
 }
+
+/* ==========================================================================
+   Socle
+   ========================================================================== */
 
 *,
 *::before,
@@ -42,20 +72,14 @@ html {
   scroll-padding-top: 1.5rem;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
 body {
   margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--farine);
-  color: var(--encre);
-  font-family: var(--texte);
+  background: var(--fond);
+  color: var(--texte);
+  font-family: var(--police-texte);
   font-size: 1.0625rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -69,14 +93,15 @@ h1,
 h2,
 h3 {
   margin: 0;
-  font-family: var(--enseigne);
-  font-weight: 400;
+  color: var(--accent);
+  font-family: var(--police-titre);
+  font-weight: 500;
   line-height: 1.1;
   text-wrap: balance;
 }
 
 h2 {
-  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  font-size: clamp(2rem, 4vw, 2.75rem);
   margin-bottom: 1.5rem;
 }
 
@@ -85,7 +110,7 @@ p {
 }
 
 a {
-  color: var(--croute);
+  color: var(--lien);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
 }
@@ -95,23 +120,13 @@ a:hover {
 }
 
 :focus-visible {
-  /* Vert sur fonds clairs (3:1 minimum exigé) ; doré sur les zones sombres, ci-dessous. */
-  outline: 3px solid var(--devanture);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-.entete :focus-visible,
-.devanture :focus-visible,
-.bandeau :focus-visible,
-.ardoise :focus-visible,
-.panneau :focus-visible,
 .pied :focus-visible {
-  outline-color: var(--or);
-}
-
-.aller-au-contenu:focus-visible {
-  outline-color: var(--craie);
+  outline-color: var(--focus-sur-sombre);
 }
 
 /* « Aller au contenu » met le focus sur <main> : pas de cadre autour de toute la page. */
@@ -134,8 +149,8 @@ main:focus {
   top: -4rem;
   z-index: 10;
   padding: 0.6rem 1rem;
-  background: var(--or);
-  color: var(--devanture-fonce);
+  background: var(--accent);
+  color: var(--sur-accent);
   font-weight: 600;
   border-radius: 4px;
 }
@@ -144,17 +159,88 @@ main:focus {
   top: 1rem;
 }
 
-/* ---------- En-tête ---------- */
+.contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+  padding-inline: var(--marge);
+}
+
+/* ==========================================================================
+   Décors : frise, mur de carreaux, filet orné
+   ========================================================================== */
+
+/* La frise de losanges dorés, entre deux filets chocolat. */
+.frise {
+  position: relative;
+  height: 18px;
+  border-block: 2px solid var(--chocolat);
+  background: var(--fond);
+}
+
+.frise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--caramel);
+  -webkit-mask: var(--motif-frise) left center / 24px 14px repeat-x;
+  mask: var(--motif-frise) left center / 24px 14px repeat-x;
+}
+
+/* Le mur de carreaux de métro : joints en fond, carreaux bombés par-dessus. */
+.mur,
+.bandeau {
+  position: relative;
+  isolation: isolate;
+  background: var(--joint);
+}
+
+.mur::before,
+.bandeau::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* Chaque rangée : plus claire en haut, comme un carreau émaillé. */
+  background: repeating-linear-gradient(180deg, var(--carreau-reflet) 0, var(--carreau) 24px);
+  -webkit-mask: var(--motif-carreaux) 0 0 / 96px 48px;
+  mask: var(--motif-carreaux) 0 0 / 96px 48px;
+}
+
+/* Filet orné : deux traits et un losange. */
+.filet {
+  position: relative;
+  width: min(22rem, 70%);
+  height: 14px;
+  margin: clamp(1.25rem, 3vw, 2rem) auto;
+  background:
+    linear-gradient(var(--caramel) 0 0) left center / calc(50% - 18px) 2px no-repeat,
+    linear-gradient(var(--caramel) 0 0) right center / calc(50% - 18px) 2px no-repeat;
+}
+
+.filet::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  background: var(--caramel);
+  translate: -50% -50%;
+  rotate: 45deg;
+}
+
+/* ==========================================================================
+   En-tête et menu
+   ========================================================================== */
 
 .entete {
-  background: var(--devanture);
-  color: var(--craie);
+  background: var(--fond);
 }
 
 .entete-contenu {
-  max-width: calc(var(--largeur) + 2 * var(--marge));
+  max-width: var(--largeur);
   margin: 0 auto;
-  padding: 1rem var(--marge);
+  padding: 0.9rem var(--marge);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -165,18 +251,24 @@ main:focus {
 .marque {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--or);
-  font-family: var(--enseigne);
-  font-size: 1.5rem;
-  line-height: 1;
+  gap: 0.55rem;
+  min-height: 44px;
+  color: var(--accent);
+  font-family: var(--police-titre);
+  font-size: 1.45rem;
+  font-style: italic;
+  font-weight: 500;
   text-decoration: none;
+}
+
+.embleme-carreau {
+  fill: var(--carreau);
 }
 
 .menu {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
+  gap: 0.25rem 1.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -184,191 +276,178 @@ main:focus {
 
 .menu a {
   display: block;
-  padding: 0.35rem 0;
-  color: var(--craie);
+  padding: 0.4rem 0;
+  color: var(--texte);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   text-decoration: none;
   border-bottom: 2px solid transparent;
+  transition: border-color var(--duree) ease, color var(--duree) ease;
 }
 
 .menu a:hover {
-  border-bottom-color: rgb(236 232 221 / 0.5);
+  border-bottom-color: var(--caramel);
 }
 
 .menu a[aria-current="page"] {
-  color: var(--or-clair);
-  border-bottom-color: var(--or);
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
-/* ---------- Devanture (accueil) ---------- */
-
-.devanture {
-  background: var(--devanture);
-  color: var(--craie);
+/* Le bouton « Menu » n'existe que sur petit écran. */
+.menu-bouton {
+  display: none;
 }
 
-.enseigne {
-  padding: clamp(1rem, 3vw, 2rem) var(--marge) clamp(2rem, 5vw, 3.5rem);
-}
+/* ==========================================================================
+   Accueil : le mur, l'enseigne, les plaques
+   ========================================================================== */
 
-.enseigne h1 {
-  max-width: var(--largeur);
-  margin: 0 auto;
-  padding: clamp(1.75rem, 5vw, 3.5rem) 1rem clamp(1.5rem, 4vw, 3rem);
-  /* Le cadre mouluré du panneau d'enseigne. */
-  border: 1px solid rgb(217 169 61 / 0.55);
-  outline: 1px solid rgb(217 169 61 / 0.25);
-  outline-offset: 6px;
+.mur {
   text-align: center;
 }
 
-.enseigne-metier,
-.enseigne-nom {
-  display: block;
+.mur-contenu {
+  padding-block: clamp(2.75rem, 7vw, 5.5rem) clamp(3rem, 7vw, 5rem);
 }
 
-.enseigne-metier {
-  font-size: clamp(1.15rem, 3.2vw, 2.1rem);
-  letter-spacing: 0.32em;
+.metier {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  font-size: clamp(0.85rem, 1.6vw, 1rem);
+  font-weight: 600;
+  letter-spacing: 0.42em;
   /* Compense l'espacement après la dernière lettre pour rester centré. */
-  margin-right: -0.32em;
-  color: var(--craie);
+  margin-right: -0.42em;
+  text-transform: uppercase;
 }
 
-.enseigne-nom {
-  margin-top: 0.08em;
-  font-size: clamp(4rem, 19vw, 13.5rem);
+.mur-nom {
+  font-size: clamp(3.4rem, 11.5vw, 9.5rem);
+  font-weight: 500;
   line-height: 0.95;
-  letter-spacing: -0.01em;
-  color: var(--or);
-  /* Reflet de la feuille d'or. */
-  background: linear-gradient(176deg, var(--or-clair) 8%, var(--or) 46%, #b9862a 92%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.015em;
 }
 
-.store {
-  display: block;
-  background: var(--devanture-fonce);
-  filter: drop-shadow(0 6px 5px rgb(0 0 0 / 0.28));
-  position: relative;
-  z-index: 1;
+.italique {
+  font-style: italic;
+  font-weight: 400;
 }
 
-.store-raie-claire {
-  fill: var(--craie);
-}
-
-.store-raie-or {
-  fill: var(--or);
-}
-
-.vitrine {
-  background: var(--devanture-fonce);
-  padding: clamp(1.5rem, 4vw, 3rem) var(--marge) var(--respiration);
-}
-
-.vitrine-contenu {
-  max-width: var(--largeur);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 2rem clamp(2rem, 6vw, 5rem);
-  align-items: start;
-}
-
-.vitrine-texte p {
-  font-size: 1.2rem;
-  line-height: 1.5;
-  max-width: 28rem;
-  margin-bottom: 1.75rem;
-}
-
-/* ---------- Photos ---------- */
-
-.photo {
-  position: relative;
-  margin: 0;
-  overflow: hidden;
-  border-radius: 6px;
-  background: var(--craie);
-}
-
-.photo img {
-  object-fit: cover;
-}
-
-.photo-large {
-  aspect-ratio: 16 / 7;
-}
-
-.photo-paysage {
-  aspect-ratio: 4 / 3;
-}
-
-.photo-portrait {
-  aspect-ratio: 4 / 5;
-}
-
-.vitrine-photo {
-  max-width: var(--largeur);
-  margin: clamp(1.75rem, 5vw, 3rem) auto 0;
-  /* Filet doré, comme le cadre de l'enseigne. */
-  box-shadow: 0 0 0 1px rgb(217 169 61 / 0.55);
-}
-
-.phares {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  gap: 2rem clamp(1.5rem, 4vw, 2.5rem);
-  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
-  padding: 0;
-  list-style: none;
-}
-
-.phares-legende {
+/* Les plaques émaillées, comme celles des noms de rues. */
+.plaques {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 0.75rem 0 0;
-  font-size: 1.125rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.25rem;
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
 }
 
-/* ---------- État de la boutique ---------- */
+.plaque {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: min(100%, 17rem);
+  padding: 0.85rem 1.75rem 1rem;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--sur-accent);
+  text-align: center;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 0 0 5px var(--accent),
+    inset 0 0 0 7px var(--sur-accent),
+    0 0 0 3px var(--caramel),
+    0 10px 18px -8px var(--ombre);
+}
+
+.plaque p {
+  margin: 0;
+}
+
+.plaque-haut,
+.plaque .horaires-resume-jours {
+  display: block;
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--sur-accent) 55%, transparent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+.plaque-texte,
+.plaque .horaires-resume-heures {
+  display: block;
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+}
+
+/* Le « e » de « 19e » et le « h » des heures restent en minuscules. */
+.sans-capitales,
+.plaque .horaires-resume-heures {
+  text-transform: none;
+}
+
+/* ==========================================================================
+   État ouvert / fermé
+   ========================================================================== */
 
 .etat-titre {
   display: flex;
-  align-items: baseline;
-  gap: 0.45em;
-  margin: 0 0 0.4rem;
-  font-family: var(--enseigne);
-  font-size: clamp(1.75rem, 4.2vw, 3rem);
-  line-height: 1.12;
-  text-wrap: balance;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--police-titre);
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  font-style: italic;
+  line-height: 1.2;
 }
 
 .etat-pastille {
   flex: none;
-  width: 0.34em;
-  height: 0.34em;
+  width: 0.5em;
+  height: 0.5em;
   border-radius: 50%;
-  background: rgb(236 232 221 / 0.35);
-  transform: translateY(-0.12em);
+  background: var(--gris-ferme);
 }
 
 .etat-pastille.est-ouvert {
-  background: #8fd694;
-  box-shadow: 0 0 0 0.12em rgb(143 214 148 / 0.25);
+  background: var(--vert-ouvert);
 }
 
 .etat-detail {
   margin: 0;
   min-height: 1.6em;
-  color: rgb(236 232 221 / 0.8);
+  color: var(--texte-doux);
+  font-size: 0.95rem;
 }
 
-/* ---------- Boutons ---------- */
+/* Sur le mur : une pastille posée sur les carreaux. */
+.mur .etat,
+.bandeau .etat {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 0.6rem 1.5rem 0.7rem;
+  background: color-mix(in srgb, var(--fond) 94%, transparent);
+  border: 1px solid var(--joint);
+  border-radius: 999px;
+}
+
+.mur .etat-titre,
+.bandeau .etat-titre {
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Boutons
+   ========================================================================== */
 
 .actions {
   display: flex;
@@ -376,65 +455,395 @@ main:focus {
   gap: 0.75rem;
 }
 
+.mur .actions {
+  justify-content: center;
+}
+
 .bouton {
-  display: inline-block;
-  padding: 0.75rem 1.35rem;
-  border: 1.5px solid var(--or);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 1.6rem;
+  border: 2px solid var(--accent);
   border-radius: 6px;
-  background: var(--or);
-  color: var(--devanture-fonce);
+  background: var(--accent);
+  color: var(--sur-accent);
+  font: inherit;
+  font-size: 0.9rem;
   font-weight: 600;
+  letter-spacing: 0.14em;
   line-height: 1.2;
+  text-transform: uppercase;
   text-decoration: none;
-  transition: background-color 0.15s ease;
+  cursor: pointer;
+  transition: background-color var(--duree) ease, border-color var(--duree) ease, color var(--duree) ease;
 }
 
 .bouton:hover {
-  background: var(--or-clair);
-  border-color: var(--or-clair);
-}
-
-.bouton-discret {
-  background: transparent;
-  border-color: rgb(236 232 221 / 0.55);
-  color: var(--craie);
-}
-
-.bouton-discret:hover {
-  background: rgb(236 232 221 / 0.1);
-  border-color: var(--craie);
+  background: var(--espresso);
+  border-color: var(--espresso);
 }
 
 .bouton-contour {
-  background: transparent;
-  border-color: var(--devanture);
-  color: var(--devanture);
+  background: var(--fond);
+  color: var(--accent);
 }
 
 .bouton-contour:hover {
-  background: rgb(30 58 47 / 0.08);
+  background: var(--beige-soutenu);
+  color: var(--espresso);
+  border-color: var(--accent);
 }
 
-.bouton-fonce {
-  background: var(--devanture);
-  border-color: var(--devanture);
-  color: var(--papier);
+/* ==========================================================================
+   Arcades : les cartes en plein cintre (les photos viendront s'y loger)
+   ========================================================================== */
+
+.arcades {
+  padding-block: var(--respiration);
 }
 
-.bouton-fonce:hover {
-  background: var(--devanture-fonce);
-  border-color: var(--devanture-fonce);
+.arcades-grille {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: end;
 }
 
-/* ---------- Ardoise (la carte) ---------- */
+.arcade {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 22rem;
+  padding: 2rem 1.75rem 1.75rem;
+  border-radius: 999px 999px 4px 4px;
+  background: var(--accent);
+  color: var(--sur-accent);
+  text-decoration: none;
+  transition: background-color var(--duree) ease;
+}
+
+a.arcade:hover {
+  background: var(--espresso);
+}
+
+.arcade-claire {
+  background: var(--beige-soutenu);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+a.arcade-claire:hover {
+  background: var(--joint);
+}
+
+.arcade-titre {
+  display: block;
+  margin: 0;
+  color: inherit;
+  font-family: var(--police-titre);
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.arcade-suite {
+  margin-top: 0.75rem;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.arcade-contour {
+  background: var(--fond);
+  color: var(--texte);
+  box-shadow: inset 0 0 0 2px var(--caramel);
+}
+
+.arcade-contour .arcade-titre {
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Coordonnées
+   ========================================================================== */
+
+.coordonnees {
+  margin: 0;
+}
+
+.coordonnees > div + div {
+  margin-top: 1.25rem;
+}
+
+.coordonnees dt {
+  color: var(--texte-doux);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.coordonnees dd {
+  margin: 0.15rem 0 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.a-venir {
+  color: var(--texte-doux);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   Pages intérieures
+   ========================================================================== */
+
+.bandeau {
+  padding: clamp(2.25rem, 6vw, 4rem) var(--marge) clamp(2.5rem, 6vw, 4rem);
+  text-align: center;
+}
+
+.bandeau-contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+}
+
+.bandeau h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2.6rem, 8vw, 5.25rem);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.bandeau-contenu > p {
+  max-width: 36rem;
+  margin: 0 auto 1.5rem;
+  font-size: 1.15rem;
+}
+
+.bandeau-contenu > :last-child {
+  margin-bottom: 0;
+}
+
+.bandeau .actions {
+  justify-content: center;
+}
+
+.sommaire {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bloc {
+  padding: var(--respiration) var(--marge);
+}
+
+.bloc-papier {
+  background: var(--beige-soutenu);
+}
+
+.bloc-contenu {
+  max-width: var(--largeur);
+  margin: 0 auto;
+}
+
+.bloc-contenu.etroit > * {
+  max-width: 40rem;
+}
+
+.bloc-contenu > :last-child {
+  margin-bottom: 0;
+}
+
+.bloc .actions {
+  margin-top: 2rem;
+}
+
+.deux-colonnes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem clamp(2rem, 7vw, 6rem);
+  align-items: start;
+}
+
+.texte-long p {
+  font-size: 1.2rem;
+  line-height: 1.65;
+}
+
+.texte-long p:first-child {
+  font-family: var(--police-titre);
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+}
+
+/* Message « à venir » : un texte courant, pas le grand paragraphe d'introduction. */
+.texte-long p.a-venir {
+  font-family: var(--police-texte);
+  font-size: 1.2rem;
+}
+
+/* La maison : sans photo, la colonne de droite est une plaque qui donne l'essentiel. */
+.maison-corps {
+  grid-template-columns: 1.15fr 1fr;
+}
+
+.panneau {
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--sur-accent);
+  box-shadow:
+    inset 0 0 0 5px var(--accent),
+    inset 0 0 0 7px var(--sur-accent),
+    0 0 0 3px var(--caramel);
+}
+
+.panneau h2 {
+  margin-bottom: 1.25rem;
+  color: inherit;
+  font-size: clamp(1.75rem, 3.4vw, 2.25rem);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.panneau .etat {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--sur-accent) 40%, transparent);
+}
+
+.panneau .etat-titre,
+.panneau a {
+  color: var(--sur-accent);
+}
+
+.panneau .etat-detail,
+.panneau .coordonnees dt,
+.panneau .a-venir {
+  color: color-mix(in srgb, var(--sur-accent) 85%, transparent);
+}
+
+.panneau :focus-visible {
+  outline-color: var(--focus-sur-sombre);
+}
+
+.panneau-suite {
+  margin: 1.5rem 0 0;
+}
+
+.engagements {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 2.5rem clamp(2rem, 5vw, 4rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.engagements li {
+  padding-top: 1.25rem;
+  border-top: 2px solid var(--caramel);
+}
+
+.engagements h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.5rem;
+}
+
+.engagements p {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Horaires
+   ========================================================================== */
+
+.horaires {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.horaires th,
+.horaires td {
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid var(--joint);
+}
+
+.horaires th {
+  text-align: left;
+  font-weight: 500;
+}
+
+.horaires td {
+  text-align: right;
+}
+
+.horaires .est-ferme,
+.horaires-repere,
+.horaires-motif {
+  color: var(--texte-doux);
+}
+
+.horaires .est-aujourdhui th,
+.horaires .est-aujourdhui td {
+  background: var(--beige-soutenu);
+  font-weight: 600;
+}
+
+.horaires .est-aujourdhui th {
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+
+.horaires-repere {
+  font-weight: 400;
+}
+
+.horaires-motif {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.horaires-resume {
+  margin: 0;
+}
+
+.fermetures {
+  margin-top: 1.75rem;
+}
+
+.fermetures h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.35rem;
+}
+
+.fermetures ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fermetures li {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--joint);
+}
+
+/* ==========================================================================
+   La carte (« ardoise » : le tableau des produits et des prix)
+   ========================================================================== */
 
 .ardoise {
-  background-color: var(--ardoise);
-  /* Traces de craie effacée. */
-  background-image:
-    radial-gradient(60rem 22rem at 12% 0%, rgb(236 232 221 / 0.07), transparent 70%),
-    radial-gradient(50rem 26rem at 95% 100%, rgb(236 232 221 / 0.05), transparent 70%);
-  color: var(--craie);
   padding: var(--respiration) var(--marge);
 }
 
@@ -444,17 +853,19 @@ main:focus {
 }
 
 .ardoise-entete {
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  text-align: center;
 }
 
 .ardoise-entete h2 {
   margin-bottom: 0.5rem;
-  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-style: italic;
+  font-weight: 400;
 }
 
 .ardoise-entete p {
   margin: 0;
-  color: rgb(236 232 221 / 0.78);
+  color: var(--texte-doux);
 }
 
 .ardoise-colonnes {
@@ -474,9 +885,10 @@ main:focus {
 .ardoise-categorie :is(h2, h3) {
   margin-bottom: 1.1rem;
   padding-bottom: 0.6rem;
-  border-bottom: 2px solid rgb(236 232 221 / 0.3);
-  font-size: 1.75rem;
-  color: var(--or-clair);
+  border-bottom: 2px solid var(--caramel);
+  font-size: 1.6rem;
+  font-style: italic;
+  font-weight: 400;
 }
 
 .ardoise-liste {
@@ -500,26 +912,22 @@ main:focus {
 .ardoise-points {
   flex: 1;
   min-width: 1.5rem;
-  border-bottom: 2px dotted rgb(236 232 221 / 0.35);
+  border-bottom: 2px dotted var(--joint);
   transform: translateY(-0.28em);
 }
 
 .ardoise-prix {
   flex: none;
+  color: var(--accent);
   font-variant-numeric: tabular-nums;
   font-weight: 600;
 }
 
-.ardoise-detail {
-  margin: 0.1rem 0 0;
-  font-size: 0.95rem;
-  color: rgb(236 232 221 / 0.72);
-}
-
+.ardoise-detail,
 .ardoise-allergenes {
-  margin: 0.15rem 0 0;
-  font-size: 0.9rem;
-  color: rgb(236 232 221 / 0.82);
+  margin: 0.1rem 0 0;
+  color: var(--texte-doux);
+  font-size: 0.95rem;
 }
 
 .ardoise-allergenes-titre {
@@ -529,269 +937,84 @@ main:focus {
 .ardoise-note {
   margin: 1.25rem 0 0;
   padding-left: 0.9rem;
-  border-left: 2px solid var(--or);
+  border-left: 2px solid var(--caramel);
+  color: var(--texte-doux);
   font-size: 0.95rem;
-  color: rgb(236 232 221 / 0.85);
 }
 
 .ardoise-vide {
   margin: 0;
-  font-family: var(--enseigne);
+  color: var(--accent);
+  font-family: var(--police-titre);
   font-size: clamp(1.5rem, 4vw, 2.25rem);
-  color: var(--or-clair);
+  font-style: italic;
+  text-align: center;
 }
 
 .ardoise-suite {
   margin: clamp(2rem, 5vw, 3rem) 0 0;
+  text-align: center;
 }
 
-.ardoise a {
-  color: var(--or-clair);
-}
+/* ==========================================================================
+   Photos (aucune pour l'instant : rien ne s'affiche tant qu'il n'y en a pas)
+   ========================================================================== */
 
-/* ---------- Bandeau des pages intérieures ---------- */
-
-.bandeau {
-  background: var(--devanture);
-  color: var(--craie);
-  padding: clamp(2rem, 6vw, 4rem) var(--marge) clamp(2.5rem, 7vw, 4.5rem);
-  border-bottom: 6px solid var(--or);
-}
-
-.bandeau-contenu {
-  max-width: var(--largeur);
-  margin: 0 auto;
-}
-
-.bandeau h1 {
-  max-width: 16ch;
-  margin-bottom: 1rem;
-  font-size: clamp(2.6rem, 8vw, 5.25rem);
-  color: var(--or-clair);
-}
-
-.bandeau-contenu > p {
-  max-width: 36rem;
-  margin-bottom: 1.5rem;
-  font-size: 1.2rem;
-}
-
-.bandeau-contenu > :last-child {
-  margin-bottom: 0;
-}
-
-.sommaire {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
+.photo {
+  position: relative;
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.sommaire a {
-  color: var(--or-clair);
-}
-
-/* ---------- Blocs clairs ---------- */
-
-.bloc {
-  padding: var(--respiration) var(--marge);
-}
-
-.bloc-papier {
-  background: var(--papier);
-}
-
-.bloc-contenu {
-  max-width: var(--largeur);
-  margin: 0 auto;
-}
-
-.bloc-contenu.etroit > * {
-  max-width: 40rem;
-}
-
-.bloc-contenu > :last-child {
-  margin-bottom: 0;
-}
-
-.bloc .actions {
-  margin-top: 2rem;
-}
-
-.texte-long p {
-  font-size: 1.25rem;
-  line-height: 1.6;
-}
-
-.texte-long p:first-child {
-  font-family: var(--enseigne);
-  font-size: clamp(1.6rem, 3.6vw, 2.25rem);
-  line-height: 1.25;
-  margin-bottom: 1.5rem;
-}
-
-/* Message « à venir » : un texte courant, pas le grand paragraphe d'introduction. */
-.texte-long p.a-venir {
-  font-family: var(--texte);
-  font-size: 1.25rem;
-  line-height: 1.6;
-}
-
-.deux-colonnes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem clamp(2rem, 7vw, 6rem);
-  align-items: start;
-}
-
-/* ---------- La maison ---------- */
-
-.maison-corps {
-  grid-template-columns: 1.15fr 1fr;
-}
-
-/* Panneau vert, comme la devanture : sert de colonne de droite quand il n'y a pas de photo. */
-.panneau {
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  background: var(--devanture);
-  color: var(--craie);
+  overflow: hidden;
   border-radius: 6px;
-  box-shadow: inset 0 0 0 1px rgb(217 169 61 / 0.55);
+  background: var(--beige-soutenu);
 }
 
-.panneau h2 {
-  margin-bottom: 1.25rem;
-  font-size: clamp(1.75rem, 3.4vw, 2.25rem);
-  color: var(--or-clair);
+.photo img {
+  object-fit: cover;
 }
 
-.panneau .etat {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgb(236 232 221 / 0.25);
+.photo-large {
+  aspect-ratio: 16 / 7;
 }
 
-.panneau .etat-titre {
-  font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+.photo-paysage {
+  aspect-ratio: 4 / 3;
 }
 
-.panneau .coordonnees dt,
-.panneau .a-venir {
-  color: rgb(236 232 221 / 0.78);
+/* Le portrait prend la forme d'une arcade. */
+.photo-portrait {
+  aspect-ratio: 4 / 5;
+  border-radius: 999px 999px 4px 4px;
 }
 
-.panneau a {
-  color: var(--or-clair);
+.accueil-photo {
+  margin-bottom: clamp(2rem, 5vw, 3rem);
 }
 
-.panneau-suite {
-  margin: 1.5rem 0 0;
-}
-
-/* ---------- Coordonnées ---------- */
-
-.coordonnees {
-  margin: 0;
-}
-
-.coordonnees > div + div {
-  margin-top: 1.5rem;
-}
-
-.coordonnees dt {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: rgb(23 35 29 / 0.68);
-}
-
-.coordonnees dd {
-  margin: 0.15rem 0 0;
-  font-size: 1.2rem;
-  line-height: 1.5;
-}
-
-.a-venir {
-  color: rgb(23 35 29 / 0.68);
-  font-style: italic;
-}
-
-/* ---------- Horaires ---------- */
-
-.horaires {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-
-.horaires th,
-.horaires td {
-  padding: 0.7rem 0.75rem;
-  border-bottom: 1px solid rgb(23 35 29 / 0.14);
-}
-
-.horaires th {
-  text-align: left;
-  font-weight: 500;
-}
-
-.horaires td {
-  text-align: right;
-}
-
-.horaires .est-ferme {
-  color: rgb(23 35 29 / 0.72);
-}
-
-.horaires .est-aujourdhui th,
-.horaires .est-aujourdhui td {
-  background: var(--papier);
-  font-weight: 700;
-}
-
-.horaires .est-aujourdhui th {
-  box-shadow: inset 4px 0 0 var(--or);
-}
-
-.bloc-papier .horaires .est-aujourdhui th,
-.bloc-papier .horaires .est-aujourdhui td {
-  background: var(--farine);
-}
-
-.horaires-repere {
-  font-weight: 400;
-  color: rgb(23 35 29 / 0.68);
-}
-
-.horaires-motif {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: rgb(23 35 29 / 0.72);
-}
-
-.fermetures {
-  margin-top: 1.75rem;
-}
-
-.fermetures h3 {
-  margin-bottom: 0.6rem;
-  font-size: 1.35rem;
-}
-
-.fermetures ul {
-  margin: 0;
+.phares {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 2rem clamp(1.5rem, 4vw, 2.5rem);
+  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
   padding: 0;
   list-style: none;
 }
 
-.fermetures li {
-  padding: 0.55rem 0.75rem;
-  border-bottom: 1px solid rgb(23 35 29 / 0.14);
+.phares .photo {
+  border-radius: 999px 999px 4px 4px;
 }
 
-/* ---------- Formulaire de commande ---------- */
+.phares-legende {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.75rem 0 0;
+  font-size: 1.125rem;
+}
+
+/* ==========================================================================
+   Formulaire de commande
+   ========================================================================== */
 
 .commande-formulaire form {
   display: grid;
@@ -809,10 +1032,10 @@ main:focus {
   display: block;
   width: 100%;
   padding: 0.7rem 0.8rem;
-  border: 1.5px solid var(--bordure-champ);
+  border: 1.5px solid var(--brun-doux);
   border-radius: 6px;
-  background: #fff;
-  color: var(--encre);
+  background: var(--champ);
+  color: var(--texte);
   font: inherit;
   line-height: 1.4;
 }
@@ -829,22 +1052,19 @@ main:focus {
 
 .champ-aide {
   margin: 0.3rem 0 0;
+  color: var(--texte-doux);
   font-size: 0.9rem;
-  color: rgb(23 35 29 / 0.72);
 }
 
 .champ-erreur {
   margin: 0.4rem 0 0;
+  color: var(--erreur);
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--erreur);
 }
 
 .commande-formulaire .bouton {
   justify-self: start;
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
 }
 
 .commande-formulaire .bouton:disabled {
@@ -856,6 +1076,7 @@ main:focus {
   margin-bottom: 1.5rem;
   padding: 1rem 1.25rem;
   border-radius: 6px;
+  background: var(--champ);
 }
 
 .commande-message > :last-child {
@@ -864,7 +1085,7 @@ main:focus {
 
 .commande-message-titre {
   margin-bottom: 0.4rem;
-  font-family: var(--enseigne);
+  font-family: var(--police-titre);
   font-size: 1.35rem;
   line-height: 1.2;
 }
@@ -875,12 +1096,10 @@ main:focus {
 }
 
 .commande-succes {
-  background: #eaf1e6;
-  border: 2px solid var(--devanture);
+  border: 2px solid var(--vert-ouvert);
 }
 
 .commande-probleme {
-  background: #fdf0ee;
   border: 2px solid var(--erreur);
 }
 
@@ -893,61 +1112,53 @@ main:focus {
   overflow: hidden;
 }
 
-/* ---------- Engagements (La maison) ---------- */
-
-.engagements {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-  gap: 2.5rem clamp(2rem, 5vw, 4rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.engagements li {
-  padding-top: 1.25rem;
-  border-top: 3px solid var(--devanture);
-}
-
-.engagements h3 {
-  margin-bottom: 0.6rem;
-  font-size: 1.5rem;
-}
-
-.engagements p {
-  margin: 0;
-}
-
-/* ---------- Pied de page ---------- */
+/* ==========================================================================
+   Pied de page
+   ========================================================================== */
 
 .pied {
-  background: var(--devanture-fonce);
-  color: rgb(236 232 221 / 0.85);
-  padding: clamp(2.5rem, 6vw, 4rem) var(--marge);
-  font-size: 1rem;
+  background: var(--espresso);
+  color: var(--beige);
 }
 
 .pied-contenu {
   max-width: var(--largeur);
   margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 3.5rem) var(--marge) clamp(1.75rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pied .pied-enseigne {
+  order: -1;
+  margin: 0;
+  font-family: var(--police-titre);
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+}
+
+.pied-colonnes {
   display: grid;
-  grid-template-columns: 1.2fr 1.3fr auto;
-  gap: 2rem clamp(2rem, 6vw, 5rem);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.pied .pied-titre {
+  margin: 0 0 0.6rem;
+  color: var(--beige);
+  font-family: var(--police-texte);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .pied p {
   margin: 0 0 0.25rem;
-}
-
-.pied .pied-marque {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--or);
-  font-family: var(--enseigne);
-  font-size: 1.35rem;
-  line-height: 1.2;
 }
 
 .pied ul {
@@ -958,52 +1169,218 @@ main:focus {
 
 .pied-horaires li {
   display: flex;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 0.3rem 0;
+  flex-wrap: wrap;
+  gap: 0 0.75rem;
   font-variant-numeric: tabular-nums;
 }
 
 .pied-liens li + li {
-  margin-top: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 .pied a {
-  color: var(--craie);
+  color: var(--beige);
 }
 
-/* Mode contraste élevé (Windows) : les fonds sont supprimés, le texte doit rester visible. */
-@media (forced-colors: active) {
-  .enseigne-nom {
-    background: none;
-    -webkit-text-fill-color: currentColor;
-  }
-}
-
-/* ---------- Petits écrans ---------- */
+/* ==========================================================================
+   Petits écrans
+   ========================================================================== */
 
 @media (max-width: 760px) {
+  .deux-colonnes,
+  .arcades-grille,
+  .pied-colonnes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .photo-large,
   .photo-portrait {
     aspect-ratio: 4 / 3;
   }
 
-  .vitrine-contenu,
-  .deux-colonnes,
-  .pied-contenu {
-    grid-template-columns: 1fr;
+  .plaque {
+    width: 100%;
   }
 
-  .enseigne h1 {
-    outline-offset: 4px;
-  }
-
-  .menu {
-    gap: 0.25rem 1.15rem;
+  .arcade {
+    min-height: 13rem;
+    padding-top: 4.5rem;
+    /* Arc surbaissé : sur toute la largeur, un plein cintre mangerait le texte. */
+    border-radius: 50% 50% 4px 4px / 5.5rem 5.5rem 4px 4px;
   }
 
   .horaires th,
   .horaires td {
     padding-inline: 0.5rem;
+  }
+
+  /* En-tête : le menu se replie derrière un bouton. */
+  .entete-contenu {
+    gap: 0 0.75rem;
+    padding-block: 0.6rem;
+  }
+
+  .menu-bouton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 0 1rem;
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    background: var(--fond);
+    color: var(--accent);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .menu-bouton-icone,
+  .menu-bouton-icone::before,
+  .menu-bouton-icone::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    transition: transform var(--duree) ease, background-color var(--duree) ease;
+  }
+
+  .menu-bouton-icone {
+    position: relative;
+  }
+
+  .menu-bouton-icone::before,
+  .menu-bouton-icone::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
+  .menu-bouton-icone::before {
+    top: -6px;
+  }
+
+  .menu-bouton-icone::after {
+    top: 6px;
+  }
+
+  .menu-ouvert .menu-bouton-icone {
+    background: transparent;
+  }
+
+  .menu-ouvert .menu-bouton-icone::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .menu-ouvert .menu-bouton-icone::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Le panneau se déplie sous la barre et pousse la page (pas de calque par-dessus). */
+  .menu-panneau {
+    flex-basis: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows var(--duree) ease,
+      visibility 0s linear var(--duree);
+  }
+
+  .menu-ouvert .menu-panneau {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows var(--duree) ease;
+  }
+
+  .menu {
+    min-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+  }
+
+  .menu li + li {
+    border-top: 1px solid var(--joint);
+  }
+
+  .menu a {
+    padding: 0.85rem 0;
+    font-size: 1rem;
+    border-bottom: 0;
+  }
+
+  .menu a[aria-current="page"] {
+    box-shadow: inset 4px 0 0 var(--accent);
+    padding-left: 1rem;
+  }
+}
+
+/* Très petits écrans : le bouton ne garde que son icône (« Menu » reste lu par les lecteurs d'écran). */
+@media (max-width: 359px) {
+  .menu-bouton {
+    padding: 0 13px;
+  }
+
+  .menu-bouton-texte {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Sans JavaScript, le bouton ne peut rien ouvrir : les liens restent affichés. */
+@media (max-width: 760px) and (scripting: none) {
+  .menu-bouton {
+    display: none;
+  }
+
+  .menu-panneau {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+}
+
+/* ==========================================================================
+   Préférences : animations réduites, contraste élevé
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .menu-bouton-icone,
+  .menu-bouton-icone::before,
+  .menu-bouton-icone::after {
+    forced-color-adjust: none;
+    background: ButtonText;
+  }
+
+  .menu-ouvert .menu-bouton-icone {
+    background: transparent;
+  }
+
+  .plaque,
+  .panneau,
+  .arcade {
+    border: 2px solid CanvasText;
   }
 }
