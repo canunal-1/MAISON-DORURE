@@ -6,6 +6,16 @@ export function adresseComplete(): string {
   return [rue, [codePostal, ville].filter(Boolean).join(" ")].filter(Boolean).join(", ");
 }
 
+/** « Paris 19e » (ou « Paris 1er ») d'après le code postal ; sinon la ville seule. */
+export function quartier(): string {
+  const { codePostal, ville } = boulangerie.adresse;
+  if (ville === "Paris" && /^750\d\d$/.test(codePostal)) {
+    const numero = Number(codePostal.slice(3));
+    return `Paris ${numero}${numero === 1 ? "er" : "e"}`;
+  }
+  return ville;
+}
+
 /** Adresse, téléphone et e-mail. Les champs vides affichent « à venir ». */
 export default function Coordonnees() {
   const adresse = adresseComplete();
