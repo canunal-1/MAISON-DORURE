@@ -130,6 +130,45 @@ describe("etatBoutique : fermé", () => {
   });
 });
 
+describe("etatBoutique : tous les jours de 5 h à 22 h, sans coupure", () => {
+  const TOUS_LES_JOURS: Jour[] = SEMAINE.map(({ nom }) => ({ nom, plages: [["05:00", "22:00"]] }));
+
+  for (const [saison, instant] of [
+    ["heure d'hiver", (heure: string) => hiver("2026-11-04", heure)], // mercredi
+    ["heure d'été", (heure: string) => ete("2026-06-10", heure)], // mercredi
+  ] as const) {
+    it(`${saison} : fermé à 4 h 59, ouvert à 5 h`, () => {
+      const avant = etatBoutique(TOUS_LES_JOURS, instant("04:59"));
+      expect(avant.ouvert).toBe(false);
+      expect(avant.titre).toBe("Fermé, ouvre à 5 h");
+      expect(avant.detail).toBe("Aujourd'hui : 5 h – 22 h.");
+
+      const ouverture = etatBoutique(TOUS_LES_JOURS, instant("05:00"));
+      expect(ouverture.ouvert).toBe(true);
+      expect(ouverture.titre).toBe("Ouvert jusqu'à 22 h");
+      expect(ouverture.detail).toBe("Aujourd'hui : 5 h – 22 h.");
+    });
+
+    it(`${saison} : ouvert à 21 h 30 (fermeture proche), fermé à 22 h`, () => {
+      const soir = etatBoutique(TOUS_LES_JOURS, instant("21:30"));
+      expect(soir.ouvert).toBe(true);
+      expect(soir.titre).toBe("Ouvert jusqu'à 22 h");
+      expect(soir.detail).toBe("La boutique ferme dans 30 min.");
+
+      const fermeture = etatBoutique(TOUS_LES_JOURS, instant("22:00"));
+      expect(fermeture.ouvert).toBe(false);
+      expect(fermeture.titre).toBe("Fermé, ouvre demain à 5 h");
+      expect(fermeture.detail).toBe("Jeudi : 5 h – 22 h.");
+    });
+  }
+
+  it("après minuit, annonce l'ouverture du jour même", () => {
+    const etat = etatBoutique(TOUS_LES_JOURS, hiver("2026-11-05", "00:30")); // jeudi
+    expect(etat.ouvert).toBe(false);
+    expect(etat.titre).toBe("Fermé, ouvre à 5 h");
+  });
+});
+
 describe("etatBoutique : fermetures exceptionnelles", () => {
   const FERIE: Fermeture[] = [{ du: "2026-06-10", motif: "Jour férié" }]; // mercredi
 
