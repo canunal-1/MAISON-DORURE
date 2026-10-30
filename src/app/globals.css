@@ -17,6 +17,8 @@
   --craie: #ece8dd;
   --croute: #8a4a1c; /* liens et repères sur fond clair */
   --encre: #17231d; /* texte */
+  --erreur: #8f1d1d; /* messages d'erreur du formulaire */
+  --bordure-champ: #5b6b62; /* contour des champs (3:1 minimum sur le fond) */
 
   /* Typographie */
   --enseigne: "Gloock", "Bodoni 72", Didot, Georgia, serif;
@@ -93,9 +95,28 @@ a:hover {
 }
 
 :focus-visible {
-  outline: 3px solid var(--or);
+  /* Vert sur fonds clairs (3:1 minimum exigé) ; doré sur les zones sombres, ci-dessous. */
+  outline: 3px solid var(--devanture);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+.entete :focus-visible,
+.devanture :focus-visible,
+.bandeau :focus-visible,
+.ardoise :focus-visible,
+.panneau :focus-visible,
+.pied :focus-visible {
+  outline-color: var(--or);
+}
+
+.aller-au-contenu:focus-visible {
+  outline-color: var(--craie);
+}
+
+/* « Aller au contenu » met le focus sur <main> : pas de cadre autour de toute la page. */
+main:focus {
+  outline: none;
 }
 
 .visuellement-cache {
@@ -263,6 +284,57 @@ a:hover {
   margin-bottom: 1.75rem;
 }
 
+/* ---------- Photos ---------- */
+
+.photo {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--craie);
+}
+
+.photo img {
+  object-fit: cover;
+}
+
+.photo-large {
+  aspect-ratio: 16 / 7;
+}
+
+.photo-paysage {
+  aspect-ratio: 4 / 3;
+}
+
+.photo-portrait {
+  aspect-ratio: 4 / 5;
+}
+
+.vitrine-photo {
+  max-width: var(--largeur);
+  margin: clamp(1.75rem, 5vw, 3rem) auto 0;
+  /* Filet doré, comme le cadre de l'enseigne. */
+  box-shadow: 0 0 0 1px rgb(217 169 61 / 0.55);
+}
+
+.phares {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 2rem clamp(1.5rem, 4vw, 2.5rem);
+  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+  padding: 0;
+  list-style: none;
+}
+
+.phares-legende {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.75rem 0 0;
+  font-size: 1.125rem;
+}
+
 /* ---------- État de la boutique ---------- */
 
 .etat-titre {
@@ -333,6 +405,16 @@ a:hover {
   border-color: var(--craie);
 }
 
+.bouton-contour {
+  background: transparent;
+  border-color: var(--devanture);
+  color: var(--devanture);
+}
+
+.bouton-contour:hover {
+  background: rgb(30 58 47 / 0.08);
+}
+
 .bouton-fonce {
   background: var(--devanture);
   border-color: var(--devanture);
@@ -389,7 +471,7 @@ a:hover {
   scroll-margin-top: 2rem;
 }
 
-.ardoise-categorie h3 {
+.ardoise-categorie :is(h2, h3) {
   margin-bottom: 1.1rem;
   padding-bottom: 0.6rem;
   border-bottom: 2px solid rgb(236 232 221 / 0.3);
@@ -434,12 +516,29 @@ a:hover {
   color: rgb(236 232 221 / 0.72);
 }
 
+.ardoise-allergenes {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: rgb(236 232 221 / 0.82);
+}
+
+.ardoise-allergenes-titre {
+  font-weight: 600;
+}
+
 .ardoise-note {
   margin: 1.25rem 0 0;
   padding-left: 0.9rem;
   border-left: 2px solid var(--or);
   font-size: 0.95rem;
   color: rgb(236 232 221 / 0.85);
+}
+
+.ardoise-vide {
+  margin: 0;
+  font-family: var(--enseigne);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  color: var(--or-clair);
 }
 
 .ardoise-suite {
@@ -533,11 +632,62 @@ a:hover {
   margin-bottom: 1.5rem;
 }
 
+/* Message « à venir » : un texte courant, pas le grand paragraphe d'introduction. */
+.texte-long p.a-venir {
+  font-family: var(--texte);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
 .deux-colonnes {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem clamp(2rem, 7vw, 6rem);
   align-items: start;
+}
+
+/* ---------- La maison ---------- */
+
+.maison-corps {
+  grid-template-columns: 1.15fr 1fr;
+}
+
+/* Panneau vert, comme la devanture : sert de colonne de droite quand il n'y a pas de photo. */
+.panneau {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--devanture);
+  color: var(--craie);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgb(217 169 61 / 0.55);
+}
+
+.panneau h2 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.75rem, 3.4vw, 2.25rem);
+  color: var(--or-clair);
+}
+
+.panneau .etat {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgb(236 232 221 / 0.25);
+}
+
+.panneau .etat-titre {
+  font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+}
+
+.panneau .coordonnees dt,
+.panneau .a-venir {
+  color: rgb(236 232 221 / 0.78);
+}
+
+.panneau a {
+  color: var(--or-clair);
+}
+
+.panneau-suite {
+  margin: 1.5rem 0 0;
 }
 
 /* ---------- Coordonnées ---------- */
@@ -591,7 +741,7 @@ a:hover {
 }
 
 .horaires .est-ferme {
-  color: rgb(23 35 29 / 0.62);
+  color: rgb(23 35 29 / 0.72);
 }
 
 .horaires .est-aujourdhui th,
@@ -612,6 +762,135 @@ a:hover {
 .horaires-repere {
   font-weight: 400;
   color: rgb(23 35 29 / 0.68);
+}
+
+.horaires-motif {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: rgb(23 35 29 / 0.72);
+}
+
+.fermetures {
+  margin-top: 1.75rem;
+}
+
+.fermetures h3 {
+  margin-bottom: 0.6rem;
+  font-size: 1.35rem;
+}
+
+.fermetures ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fermetures li {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid rgb(23 35 29 / 0.14);
+}
+
+/* ---------- Formulaire de commande ---------- */
+
+.commande-formulaire form {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.champ label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.champ input,
+.champ textarea {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1.5px solid var(--bordure-champ);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--encre);
+  font: inherit;
+  line-height: 1.4;
+}
+
+.champ textarea {
+  min-height: 9rem;
+  resize: vertical;
+}
+
+.champ [aria-invalid="true"] {
+  border-color: var(--erreur);
+  border-width: 2px;
+}
+
+.champ-aide {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: rgb(23 35 29 / 0.72);
+}
+
+.champ-erreur {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--erreur);
+}
+
+.commande-formulaire .bouton {
+  justify-self: start;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.commande-formulaire .bouton:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.commande-message {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+}
+
+.commande-message > :last-child {
+  margin-bottom: 0;
+}
+
+.commande-message-titre {
+  margin-bottom: 0.4rem;
+  font-family: var(--enseigne);
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.commande-message ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.commande-succes {
+  background: #eaf1e6;
+  border: 2px solid var(--devanture);
+}
+
+.commande-probleme {
+  background: #fdf0ee;
+  border: 2px solid var(--erreur);
+}
+
+/* Piège à robots : sorti de l'écran, mais présent dans la page. */
+.piege {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 /* ---------- Engagements (La maison) ---------- */
@@ -693,9 +972,22 @@ a:hover {
   color: var(--craie);
 }
 
+/* Mode contraste élevé (Windows) : les fonds sont supprimés, le texte doit rester visible. */
+@media (forced-colors: active) {
+  .enseigne-nom {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
 /* ---------- Petits écrans ---------- */
 
 @media (max-width: 760px) {
+  .photo-large,
+  .photo-portrait {
+    aspect-ratio: 4 / 3;
+  }
+
   .vitrine-contenu,
   .deux-colonnes,
   .pied-contenu {

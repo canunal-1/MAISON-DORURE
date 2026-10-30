@@ -1,11 +1,11 @@
 /**
  * TOUT LE CONTENU DU SITE EST ICI.
  *
- * Pour changer un horaire, un prix, un produit ou un texte, modifie ce fichier :
+ * Pour changer un horaire, un prix, un produit ou un texte, modifier ce fichier :
  * les pages se mettent à jour toutes seules.
  *
- * Les valeurs ci-dessous sont des EXEMPLES à remplacer par les vraies
- * informations de la boulangerie (adresse, téléphone, horaires, carte, prix).
+ * Règle : une information inconnue reste VIDE ("" ou []). Le site affiche alors
+ * « à venir » (ou masque la section) au lieu d'inventer quoi que ce soit.
  */
 
 export type Plage = [ouverture: string, fermeture: string];
@@ -16,6 +16,46 @@ export type Jour = {
   plages: Plage[];
 };
 
+/** Une photo rangée dans le dossier public/photos/. */
+export type Photo = {
+  /** Chemin depuis public/, ex. "/photos/vitrine.jpg". */
+  src: string;
+  /** Description pour les personnes qui ne voient pas l'image : obligatoire. */
+  alt: string;
+  /** Facultatif : partie de la photo à garder quand elle est recadrée, ex. "center 30%". */
+  cadrage?: string;
+};
+
+/** Une fermeture exceptionnelle : un jour (`du`) ou une période (`du` → `au`, inclus). */
+export type Fermeture = {
+  /** Format "AAAA-MM-JJ". */
+  du: string;
+  /** Dernier jour fermé, même format. Absent = un seul jour. */
+  au?: string;
+  /** Affiché aux visiteurs : "Jour férié", "Congés annuels"… */
+  motif?: string;
+};
+
+/** Les 14 allergènes à déclaration obligatoire (règlement européen n° 1169/2011). */
+export const ALLERGENES = [
+  "gluten",
+  "crustacés",
+  "œufs",
+  "poissons",
+  "arachides",
+  "soja",
+  "lait",
+  "fruits à coque",
+  "céleri",
+  "moutarde",
+  "sésame",
+  "sulfites",
+  "lupin",
+  "mollusques",
+] as const;
+
+export type Allergene = (typeof ALLERGENES)[number];
+
 export type Produit = {
   nom: string;
   /** Prix en euros. */
@@ -23,6 +63,14 @@ export type Produit = {
   detail?: string;
   /** Affiché aussi sur la page d'accueil. */
   phare?: boolean;
+  /** Photo du produit : montrée sur la page d'accueil, pour les produits « phare ». */
+  photo?: Photo;
+  /**
+   * Allergènes présents, parmi la liste officielle (propositions à l'écriture).
+   * Absent ou vide : rien n'est affiché. Le site n'écrit jamais « sans allergène » :
+   * ne renseigner que ce qui a été vérifié.
+   */
+  allergenes?: Allergene[];
 };
 
 export type Categorie = {
@@ -35,10 +83,9 @@ export type Categorie = {
 export const boulangerie = {
   nom: "Boulangerie Maaned",
   nomCourt: "Maaned",
-  accroche: "Le pain du jour, les viennoiseries du matin, les gâteaux du dimanche.",
+  /** Une phrase de présentation (page d'accueil et résultats de recherche). */
+  accroche: "",
 
-  // Laisse une chaîne vide ("") tant que l'information n'est pas connue :
-  // le site affichera « à venir » à la place.
   adresse: {
     rue: "",
     codePostal: "",
@@ -47,91 +94,109 @@ export const boulangerie = {
   telephone: "",
   email: "",
   instagram: "",
+
+  /**
+   * Adresse du site une fois en ligne, sans barre finale (ex. "https://www.exemple.fr").
+   * Sert aux liens absolus : plan du site, image de partage, données pour Google.
+   * Vide : sur Vercel, l'adresse du projet est utilisée automatiquement.
+   */
+  siteUrl: "",
 };
 
-/** Du lundi au dimanche, dans cet ordre. Heures au format "HH:MM". */
-export const horaires: Jour[] = [
-  { nom: "Lundi", plages: [] },
-  { nom: "Mardi", plages: [["06:30", "19:30"]] },
-  { nom: "Mercredi", plages: [["06:30", "19:30"]] },
-  { nom: "Jeudi", plages: [["06:30", "19:30"]] },
-  { nom: "Vendredi", plages: [["06:30", "19:30"]] },
-  { nom: "Samedi", plages: [["06:30", "19:30"]] },
-  { nom: "Dimanche", plages: [["07:00", "13:00"]] },
-];
+/**
+ * Du lundi au dimanche, dans cet ordre, heures au format "HH:MM".
+ * Liste vide = horaires pas encore connus (le site affiche « Horaires à venir »).
+ * Une fois connus, renseigner les 7 jours :
+ *
+ *   { nom: "Lundi", plages: [] },                          // fermé
+ *   { nom: "Mardi", plages: [["HH:MM", "HH:MM"]] },        // une plage
+ *   { nom: "Samedi", plages: [["HH:MM", "HH:MM"], ["HH:MM", "HH:MM"]] }, // coupure
+ */
+export const horaires: Jour[] = [];
 
-export const carte: Categorie[] = [
-  {
-    id: "pains",
-    titre: "Pains",
-    produits: [
-      { nom: "Baguette de tradition", prix: 1.3, detail: "Farine de blé, levain, cuisson sur sole", phare: true },
-      { nom: "Baguette", prix: 1.1 },
-      { nom: "Pain de campagne", prix: 3.2, detail: "500 g, mie dense et croûte épaisse", phare: true },
-      { nom: "Pain complet", prix: 3.4, detail: "500 g" },
-      { nom: "Pain aux céréales", prix: 3.6, detail: "Lin, tournesol, sésame, pavot" },
-      { nom: "Pain de seigle", prix: 3.5, detail: "500 g" },
-    ],
-  },
-  {
-    id: "viennoiseries",
-    titre: "Viennoiseries",
-    produits: [
-      { nom: "Croissant au beurre", prix: 1.3, phare: true },
-      { nom: "Pain au chocolat", prix: 1.4, phare: true },
-      { nom: "Pain aux raisins", prix: 1.7 },
-      { nom: "Chausson aux pommes", prix: 1.8 },
-      { nom: "Brioche", prix: 5.5, detail: "La pièce, 400 g" },
-    ],
-  },
-  {
-    id: "patisseries",
-    titre: "Pâtisseries",
-    note: "Les gâteaux à partager se commandent 48\u00a0h à l'avance.",
-    produits: [
-      { nom: "Éclair", prix: 3.2, detail: "Chocolat ou café" },
-      { nom: "Tartelette aux fruits", prix: 3.8, detail: "Selon la saison", phare: true },
-      { nom: "Flan pâtissier", prix: 2.9, detail: "La part" },
-      { nom: "Millefeuille", prix: 3.6 },
-      { nom: "Gâteau à partager", prix: 24, detail: "6 parts, sur commande", phare: true },
-    ],
-  },
-  {
-    id: "sale",
-    titre: "Salé",
-    produits: [
-      { nom: "Sandwich jambon-beurre", prix: 4.5, detail: "Sur baguette de tradition" },
-      { nom: "Quiche lorraine", prix: 3.9, detail: "La part" },
-      { nom: "Fougasse aux olives", prix: 3.5 },
-    ],
-  },
-];
+/**
+ * Jours fériés et congés pendant lesquels la boutique est fermée, en plus des
+ * horaires habituels. Le site les respecte : « Fermé aujourd'hui », prochaine
+ * ouverture décalée, jour barré dans le tableau des horaires.
+ * Les dates passées sont ignorées toutes seules ; on peut les laisser.
+ *
+ *   { du: "AAAA-MM-JJ", motif: "Jour férié" },                         // un jour
+ *   { du: "AAAA-MM-JJ", au: "AAAA-MM-JJ", motif: "Congés annuels" },   // une période
+ *
+ * Vide = aucune fermeture annoncée.
+ */
+export const fermetures: Fermeture[] = [];
+
+/**
+ * La carte, par catégorie. Liste vide = « La carte arrive bientôt ».
+ *
+ *   {
+ *     id: "pains",                       // sans espace ni accent
+ *     titre: "Pains",
+ *     produits: [{ nom: "…", prix: 0, detail: "…", phare: true, allergenes: ["gluten", "lait"] }],
+ *   }
+ */
+export const carte: Categorie[] = [];
+
+/** Phrase d'introduction en haut de la page « La carte ». Facultatif. */
+export const introCarte = "";
+
+/**
+ * Les photos du site. `null` = pas de photo : aucun cadre vide n'est affiché.
+ * Déposer le fichier dans public/photos/ puis renseigner :
+ *
+ *   accueil: { src: "/photos/vitrine.jpg", alt: "Description de la photo" },
+ *
+ * Les photos des produits phares se renseignent dans `carte` (champ `photo`).
+ */
+export const photos: { accueil: Photo | null; maison: Photo | null } = {
+  accueil: null,
+  maison: null,
+};
 
 export const maison = {
-  titre: "Une boulangerie de quartier",
-  paragraphes: [
-    "On vient chez Maaned pour le pain du jour, pour les viennoiseries du matin, et le dimanche pour un gâteau à poser au milieu de la table.",
-    "Le pain est façonné et cuit ici, plusieurs fois par jour, pour qu'il y en ait du frais le matin comme en fin d'après-midi.",
-    "La carte reste courte et suit les saisons : les fruits des tartelettes changent au fil de l'année.",
-  ],
-  engagements: [
-    {
-      titre: "Du pain toute la journée",
-      texte: "Plusieurs fournées entre l'ouverture et la fermeture, pas seulement celle du matin.",
-    },
-    {
-      titre: "Une carte de saison",
-      texte: "Les fruits et les garnitures changent avec ce qu'on trouve de bon au moment.",
-    },
-    {
-      titre: "Des commandes sur mesure",
-      texte: "Gâteau d'anniversaire, pains pour un repas de famille, viennoiseries pour une réunion.",
-    },
-  ],
+  titre: "La maison",
+  /** Histoire de la boulangerie : un paragraphe par ligne. */
+  paragraphes: [] as string[],
+  /** Facultatif : { titre, texte }. */
+  engagements: [] as { titre: string; texte: string }[],
 };
 
 export const commande = {
   titre: "Passer une commande",
-  texte:
-    "Pour un gâteau à partager ou une grande quantité de pain ou de viennoiseries, appelez la boutique ou passez nous voir, au moins 48\u00a0h avant.",
+  /** Comment commander (délai, téléphone…). Vide = pas de texte d'introduction. */
+  texte: "",
+  /**
+   * Délai minimum entre la demande et le retrait, en jours : le formulaire refuse les
+   * dates plus proches. 0 = retrait possible dès aujourd'hui.
+   */
+  delaiJours: 0,
+  /**
+   * Le formulaire de commande n'apparaît que si l'e-mail de la boutique est renseigné
+   * (`boulangerie.email`) ET que le service d'envoi est configuré (voir le README).
+   */
+  avertissement:
+    "Cette demande n'est pas une commande confirmée : elle l'est lorsque la boutique vous a répondu.",
+  merci: "Votre demande a bien été envoyée à la boutique.",
+};
+
+/** Obligations légales : à remplir pour que la page « Mentions légales » soit complète. */
+export const mentionsLegales = {
+  /** Nom et prénom de la personne responsable de la publication du site. */
+  responsable: "",
+  /** 14 chiffres. */
+  siret: "",
+  hebergeur: {
+    nom: "",
+    adresse: "",
+    /** Adresse du site de l'hébergeur (ex. "https://vercel.com"). */
+    site: "",
+  },
+  /** Données saisies dans le formulaire de commande (section affichée seulement s'il est actif). */
+  donnees: {
+    /** Combien de temps les demandes sont gardées (à décider), ex. "3 mois". */
+    conservation: "",
+    /** Service qui transporte l'e-mail de la demande jusqu'à la boutique. */
+    prestataireEmail: "Resend (service d'envoi d'e-mails)",
+  },
 };

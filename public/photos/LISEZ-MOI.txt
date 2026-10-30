@@ -1,0 +1,6 @@
+Déposer ici les photos du site (.jpg, .png ou .webp), puis les déclarer dans
+src/content/site.ts (rubrique « photos », et champ « photo » des produits).
+
+Conseils : photos à l'horizontale pour l'accueil, un nom de fichier sans accent
+ni espace (vitrine.jpg), 2 000 px de large suffisent. Le site les redimensionne
+et les compresse tout seul.
