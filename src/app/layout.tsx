@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import "@fontsource/gloock/latin-400.css";
-import "@fontsource-variable/hanken-grotesk/wght.css";
+import "@fontsource-variable/bodoni-moda/opsz.css";
+import "@fontsource-variable/bodoni-moda/opsz-italic.css";
+import "@fontsource-variable/jost/index.css";
 import "./globals.css";
 import DonneesStructurees from "@/components/DonneesStructurees";
 import Navigation from "@/components/Navigation";
