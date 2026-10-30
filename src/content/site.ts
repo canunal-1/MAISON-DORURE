@@ -81,15 +81,16 @@ export type Categorie = {
 };
 
 export const boulangerie = {
-  nom: "Boulangerie Maaned",
-  nomCourt: "Maaned",
+  nom: "Maison Dorure",
+  /** Nom affiché sur l'enseigne, le logo et l'image de partage. */
+  nomCourt: "Maison Dorure",
   /** Une phrase de présentation (page d'accueil et résultats de recherche). */
   accroche: "",
 
   adresse: {
-    rue: "",
-    codePostal: "",
-    ville: "",
+    rue: "139 avenue de Flandre",
+    codePostal: "75019",
+    ville: "Paris",
   },
   telephone: "",
   email: "",
@@ -112,7 +113,15 @@ export const boulangerie = {
  *   { nom: "Mardi", plages: [["HH:MM", "HH:MM"]] },        // une plage
  *   { nom: "Samedi", plages: [["HH:MM", "HH:MM"], ["HH:MM", "HH:MM"]] }, // coupure
  */
-export const horaires: Jour[] = [];
+export const horaires: Jour[] = [
+  { nom: "Lundi", plages: [["05:00", "22:00"]] },
+  { nom: "Mardi", plages: [["05:00", "22:00"]] },
+  { nom: "Mercredi", plages: [["05:00", "22:00"]] },
+  { nom: "Jeudi", plages: [["05:00", "22:00"]] },
+  { nom: "Vendredi", plages: [["05:00", "22:00"]] },
+  { nom: "Samedi", plages: [["05:00", "22:00"]] },
+  { nom: "Dimanche", plages: [["05:00", "22:00"]] },
+];
 
 /**
  * Jours fériés et congés pendant lesquels la boutique est fermée, en plus des
