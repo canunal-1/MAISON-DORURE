@@ -57,7 +57,7 @@ export default function Pied() {
           </nav>
         </div>
         {/* L'enseigne, en grand, comme une signature dorée. */}
-        <p className="pied-enseigne">{boulangerie.nomCourt}</p>
+        <p className="pied-enseigne dore">{boulangerie.nomCourt}</p>
       </div>
     </footer>
   );

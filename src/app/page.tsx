@@ -25,7 +25,7 @@ export default function Accueil() {
       <section className="mur" aria-labelledby="titre-une">
         <div className="contenu mur-contenu">
           <p className="metier">{boulangerie.metier}</p>
-          <h1 id="titre-une" className="mur-nom">
+          <h1 id="titre-une" className="mur-nom dore">
             <span className="italique">{premier}</span> {suite.join(" ")}
           </h1>
           <div className="filet" aria-hidden="true" />
