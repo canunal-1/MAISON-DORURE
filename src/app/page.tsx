@@ -1,10 +1,9 @@
 import Link from "next/link";
 import Ardoise from "@/components/Ardoise";
-import Coordonnees from "@/components/Coordonnees";
+import Coordonnees, { quartier } from "@/components/Coordonnees";
 import EtatBoutique from "@/components/EtatBoutique";
 import Photographie from "@/components/Photographie";
 import PhotosPhares from "@/components/PhotosPhares";
-import Store from "@/components/Store";
 import TableauHoraires from "@/components/TableauHoraires";
 import { boulangerie, carte, photos, type Categorie } from "@/content/site";
 
@@ -18,37 +17,43 @@ const selection: Categorie[] = carte
   .filter((categorie) => categorie.produits.length > 0);
 
 export default function Accueil() {
+  // « Maison » en italique, « Dorure » en romain, comme un lettrage peint.
+  const [premier, ...suite] = boulangerie.nomCourt.split(" ");
+
   return (
     <>
-      <section className="devanture" aria-label="La boutique">
-        <div className="enseigne">
-          <h1>
-            <span className="enseigne-metier">Boulangerie</span>{" "}
-            <span className="enseigne-nom">{boulangerie.nomCourt}</span>
+      <section className="mur" aria-labelledby="titre-une">
+        <div className="contenu mur-contenu">
+          <p className="metier">{boulangerie.metier}</p>
+          <h1 id="titre-une" className="mur-nom dore">
+            <span className="italique">{premier}</span> {suite.join(" ")}
           </h1>
-        </div>
-        <Store />
-        <div className="vitrine">
-          <div className="vitrine-contenu">
-            <EtatBoutique />
-            <div className="vitrine-texte">
-              {boulangerie.accroche && <p>{boulangerie.accroche}</p>}
-              <div className="actions">
-                <Link className="bouton" href="/produits">
-                  Voir la carte
-                </Link>
-                <Link className="bouton bouton-discret" href="/contact">
-                  Venir à la boutique
-                </Link>
+          <div className="filet" aria-hidden="true" />
+
+          <div className="plaques">
+            {boulangerie.adresse.rue && (
+              <div className="plaque">
+                <p className="plaque-haut">
+                  <span className="sans-capitales">{quartier()}</span>
+                </p>
+                <p className="plaque-texte">{boulangerie.adresse.rue}</p>
               </div>
+            )}
+            <div className="plaque">
+              <h2 className="visuellement-cache">Horaires</h2>
+              <TableauHoraires />
             </div>
           </div>
-          <Photographie
-            photo={photos.accueil}
-            format="large"
-            sizes="(max-width: 72rem) 100vw, 68rem"
-            className="vitrine-photo"
-          />
+
+          <EtatBoutique />
+          <div className="actions">
+            <Link className="bouton" href="/produits">
+              Voir la carte
+            </Link>
+            <Link className="bouton bouton-contour" href="/contact">
+              Venir à la boutique
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -56,7 +61,7 @@ export default function Accueil() {
         <section className="ardoise" aria-labelledby="titre-ardoise">
           <div className="ardoise-contenu">
             <div className="ardoise-entete">
-              <h2 id="titre-ardoise">Sur l&apos;ardoise</h2>
+              <h2 id="titre-ardoise">Sur la carte</h2>
               <p>Une sélection de la carte.</p>
             </div>
             <PhotosPhares selection={selection} />
@@ -72,13 +77,35 @@ export default function Accueil() {
         </section>
       )}
 
-      <section className="bloc" aria-labelledby="titre-venir">
-        <div className="bloc-contenu deux-colonnes">
-          <div>
-            <h2 id="titre-venir">Venir à la boutique</h2>
-            <Coordonnees />
+      <section className="arcades" aria-labelledby="titre-arcades">
+        <div className="contenu">
+          <h2 id="titre-arcades" className="visuellement-cache">
+            La boutique
+          </h2>
+          <Photographie
+            photo={photos.accueil}
+            format="large"
+            sizes="(max-width: 72rem) 100vw, 68rem"
+            className="accueil-photo"
+          />
+          <div className="arcades-grille">
+            <Link className="arcade" href="/produits">
+              <span className="arcade-titre">La carte</span>
+              <span className="arcade-suite" aria-hidden="true">
+                →
+              </span>
+            </Link>
+            <Link className="arcade arcade-claire" href="/la-maison">
+              <span className="arcade-titre">La maison</span>
+              <span className="arcade-suite" aria-hidden="true">
+                →
+              </span>
+            </Link>
+            <div className="arcade arcade-contour">
+              <h3 className="arcade-titre">Venir</h3>
+              <Coordonnees />
+            </div>
           </div>
-          <TableauHoraires />
         </div>
       </section>
     </>

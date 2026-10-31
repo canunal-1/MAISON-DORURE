@@ -1,6 +1,6 @@
-# Boulangerie Maaned
+# Maison Dorure
 
-Site vitrine de la boulangerie Maaned, construit avec [Next.js](https://nextjs.org) (App Router, TypeScript).
+Site vitrine de la boulangerie Maison Dorure, construit avec [Next.js](https://nextjs.org) (App Router, TypeScript).
 
 ## Lancer le site en local
 
@@ -35,7 +35,7 @@ Le formulaire de la page « Horaires » envoie la demande par e-mail à `boulang
 
 1. renseigner `email` dans `site.ts` (et `commande.delaiJours` si la boutique demande un délai) ;
 2. créer un compte sur resend.com, y ajouter et vérifier le nom de domaine du site, puis créer une clé d'API ;
-3. chez l'hébergeur (Vercel : *Settings → Environment Variables*), définir `RESEND_API_KEY` (la clé) et `COMMANDE_EXPEDITEUR` (ex. `Boulangerie Maaned <commandes@votre-domaine.fr>`), puis redéployer. En local, mettre ces deux lignes dans un fichier `.env.local` à la racine.
+3. chez l'hébergeur (Vercel : *Settings → Environment Variables*), définir `RESEND_API_KEY` (la clé) et `COMMANDE_EXPEDITEUR` (ex. `Maison Dorure <commandes@votre-domaine.fr>`), puis redéployer. En local, mettre ces deux lignes dans un fichier `.env.local` à la racine.
 
 Si l'e-mail est renseigné mais que les variables manquent, le formulaire reste masqué et le journal de déploiement l'indique (`[commande] formulaire masqué…`).
 
